@@ -239,10 +239,9 @@ int main(int argc, char **argv)
     GtkApplication *app;
     int status;
     t_window    *win = NULL;
-    // t_result    *res = NULL;
 
     win = malloc(sizeof (t_window));
-    // res = malloc(sizeof (t_result));
+  
     initialization(win);
 
     // Δημιουργία της εφαρμογής με ένα μοναδικό ID (απαραίτητο στο GTK4)
@@ -257,14 +256,9 @@ int main(int argc, char **argv)
     // Καθαρισμός μνήμης της εφαρμογής
     g_object_unref(app);
 
-    // calculate_dimensions(win, res);
-    // printf("Sash width: %f\n", res->sash_width);
-    // printf("Sash height: %f\n", res->sash_height);
-    // printf("Frame Jambs: %f\n", res->frame_vertical_cut);
-    // printf("Frame Head/Sill: %f\n", res->frame_horizontal_cut);
+   
 
 	free(win);
-	// free(res);
     return status;
 
 }

@@ -33,20 +33,6 @@ static GtkWidget *build_labeled_spinbutton(const char *label_text, float initial
     return pair;
 }
 
-
-// static GtkWidget *build_sidebar(t_spin_data *sd)
-// {
-//     GtkWidget *sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 20);
-
-//     GtkWidget *pair_width = build_labeled_spinbutton("Frame width (mm)", sd->res->frame_width, &sd->res->frame_width);
-//     GtkWidget *pair_height = build_labeled_spinbutton("Frame height (mm)", sd->res->frame_height, &sd->res->frame_height);
-
-//     gtk_box_append(GTK_BOX(sidebar), pair_width);
-//     gtk_box_append(GTK_BOX(sidebar), pair_height);
-
-//     return sidebar;
-// }
-
 static GtkWidget *build_sidebar(t_window *win, t_result *res, GtkWidget *area)
 {
     GtkWidget *sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 20);
@@ -72,20 +58,33 @@ static GtkWidget *build_sidebar(t_window *win, t_result *res, GtkWidget *area)
     return sidebar;
 }
 
+static void	print_dim_for_check(t_result *res)
+{
+	printf("Frame width: %f\n", res->frame_width);
+    printf("Frame height: %f\n", res->frame_height);
+
+	printf("Sash width: %f\n", res->sash_width);
+    printf("Sash height: %f\n", res->sash_height);
+    
+	printf("Frame Jambs: %f\n", res->frame_vertical_cut);
+    printf("Frame Head/Sill: %f\n", res->frame_horizontal_cut);
+}
+
+
+
 void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data)
 {
-	// t_result *win = (t_window *) data;
 	t_result *res = (t_result *) data;
 	(void)res;
 	
   	float width_frame = res->frame_width;
 	float height_frame = res->frame_height;
 
-	// float width_sash = res->sash_width;
-	// float height_sash = res->sash_height;
+	float width_sash = res->sash_width;
+	float height_sash = res->sash_height;
   	(void)area;
 
-
+	print_dim_for_check(res);
 	cairo_set_source_rgb (cr, 1.0, 1.0, 1.0); /* white */
 	cairo_paint (cr);
 
@@ -98,14 +97,14 @@ void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gp
 					height_frame);
 	cairo_stroke (cr);
 
-	// cairo_set_line_width (cr, 1.5);
-	// cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-	// cairo_rectangle (cr,
-	// 				width/2.0 - width_frame/2,
-	// 				height/2.0 - height_frame/2,
-	// 				width_sash,
-	// 				height_sash);
-	// cairo_stroke (cr);
+	cairo_set_line_width (cr, 1.5);
+	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	cairo_rectangle (cr,
+					width/2.0 - width_frame/2 + 41,
+					height/2.0 - height_frame/2 + 41,
+					width_sash,
+					height_sash);
+	cairo_stroke (cr);
 
 	int x1 = 50;
 	int y1 = 50;
@@ -136,32 +135,16 @@ void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gp
 
 void activate(GtkApplication *app, gpointer data)
 {
-    // t_result	*res = (t_result *) data;
+   
+	t_window	*win = (t_window *) data;
+	t_result	*res = g_new0(t_result, 1);
 
-    // GtkWidget 	*window = gtk_application_window_new(app);
-    // GtkWidget  	*area = gtk_drawing_area_new();
-	// GtkWidget	*box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-    // GtkWidget   *sidebar = build_sidebar(res);
-	
+    GtkWidget	*window = gtk_application_window_new(app);
+    GtkWidget	*area = gtk_drawing_area_new();
+    GtkWidget	*box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+	GtkWidget	*sidebar = build_sidebar(win, res, area);
 
-	t_window *win = (t_window *) data;      /* as passed from main */
-	 t_result *res = g_new0(t_result, 1);
-    // t_result *res = malloc(sizeof *res);
     calculate_dimensions(win, res);
-
-    GtkWidget *window = gtk_application_window_new(app);
-    GtkWidget *area = gtk_drawing_area_new();
-    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
-	GtkWidget *sidebar = build_sidebar(win, res, area);
-
-    // /* Prepare SpinData for width and height */
-    // t_spin_data *sd_w = malloc(sizeof *sd_w);
-    // sd_w->field = &win->width; sd_w->win = win; sd_w->res = res; sd_w->area = area;
-    // t_spin_data *sd_h = malloc(sizeof *sd_h);
-    // sd_h->field = &win->height; sd_h->win = win; sd_h->res = res; sd_h->area = area;
-
-    // GtkWidget *pair_width = build_labeled_spinbutton("Frame width (mm)", win->width, sd_w);
-    // GtkWidget *pair_height = build_labeled_spinbutton("Frame height (mm)", win->height, sd_h);
 
     gtk_widget_set_size_request(sidebar, 250, -1);
 	set_margin(sidebar, 40);

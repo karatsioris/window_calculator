@@ -8,7 +8,7 @@ typedef struct s_sash
 {
     float   width;          // Face width (π.χ. 75mm)
     float   depth;          // Profile depth
-    // float   visible_width;  // Το ορατό μέρος του προφίλ αν χρειάζεται 60mm
+    float   visible_width;  // Το ορατό μέρος του προφίλ αν χρειάζεται 60mm
     float   rebate;    // Πλάτος πατούρας φύλλου 30mm
 } t_sash;
 
