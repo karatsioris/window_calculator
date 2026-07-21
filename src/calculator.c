@@ -8,4 +8,7 @@ void calculate_dimensions( t_window *win, t_result *res)
 
     res->frame_vertical_cut = win->height;
     res->frame_horizontal_cut = win->width - (2 * win->frame.width) + ( 2 * win->frame.rebate);
+
+    res->frame_width = win->width;
+    res->frame_height = win->height;
 }

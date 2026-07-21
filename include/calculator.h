@@ -44,8 +44,8 @@ typedef struct s_window
 // 5. Αποτελέσματα Κοπής / Κατασκευής (Output Results)
 typedef struct s_result
 {
-    float  frame_w;
-    float   frame_h;
+    float   frame_width;
+    float   frame_height;
 
     float   frame_horizontal_cut;   // Πάνω & Κάτω κάσα (Head / Sill) -> 2 κομμάτια
     float   frame_vertical_cut;     // Αριστερό & Δεξί μπόγι (Jambs) -> 2 κομμάτια
@@ -59,6 +59,14 @@ typedef struct s_result
     float   glass_width;    // Διαστάσεις τζαμιού πλάτος
     float   glass_height;   // Διαστάσεις τζαμιού ύψος
 } t_result;
+
+typedef struct s_spin_data
+{
+    float *field;
+    t_window *win;
+    t_result *res;
+    GtkWidget *area;
+} t_spin_data;
 
 
 // Συναρτήσεις υπολογισμού

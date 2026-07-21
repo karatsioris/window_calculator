@@ -56,19 +56,6 @@
 // }
 
 
-
-
-void    initialization(t_window *win)
-{
-    win->width = 400;
-    win->height = 900;
-    win->sash.width = 0;
-    win->frame.width = 79;
-    win->frame.rebate = 32;
-    win->frame.sill_rebate = 20;
-    win->join.overlap = 6;
-}
-
 // static void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data)
 // {
 // 	// t_result *win = (t_window *) data;
@@ -235,16 +222,27 @@ void    initialization(t_window *win)
 // }
 
 
+void    initialization(t_window *win)
+{
+    win->width = 500;
+    win->height = 500;
+    win->sash.width = 75;
+    win->frame.width = 79;
+    win->frame.rebate = 32;
+    win->frame.sill_rebate = 20;
+    win->join.overlap = 6;
+}
+
 
 int main(int argc, char **argv)
 {
     GtkApplication *app;
     int status;
     t_window    *win = NULL;
-    t_result    *res = NULL;
+    // t_result    *res = NULL;
 
     win = malloc(sizeof (t_window));
-    res = malloc(sizeof (t_result));
+    // res = malloc(sizeof (t_result));
     initialization(win);
 
     // Δημιουργία της εφαρμογής με ένα μοναδικό ID (απαραίτητο στο GTK4)
@@ -259,8 +257,14 @@ int main(int argc, char **argv)
     // Καθαρισμός μνήμης της εφαρμογής
     g_object_unref(app);
 
+    // calculate_dimensions(win, res);
+    // printf("Sash width: %f\n", res->sash_width);
+    // printf("Sash height: %f\n", res->sash_height);
+    // printf("Frame Jambs: %f\n", res->frame_vertical_cut);
+    // printf("Frame Head/Sill: %f\n", res->frame_horizontal_cut);
+
 	free(win);
-	free(res);
+	// free(res);
     return status;
 
 }
