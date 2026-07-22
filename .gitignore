@@ -1,3 +1,5 @@
 *.o
 win_calc
 info.txt
+meson.build
+build/

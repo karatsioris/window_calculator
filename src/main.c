@@ -244,9 +244,11 @@ int main(int argc, char **argv)
   
     initialization(win);
 
-    // Δημιουργία της εφαρμογής με ένα μοναδικό ID (απαραίτητο στο GTK4)
+    // ******* Δημιουργία της εφαρμογής με ένα μοναδικό ID (απαραίτητο στο GTK4) **********
     app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_DEFAULT_FLAGS);
-    
+    // app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_NON_UNIQUE);
+
+
     // Σύνδεση του "activate" signal με τη συνάρτηση activate που γράψαμε παραπάνω
     g_signal_connect(app, "activate", G_CALLBACK(activate), win);
     

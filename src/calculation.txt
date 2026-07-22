@@ -1,0 +1,21 @@
+leftover = 2*frame.width - (rebate + sill_rebate) - 2*join.overlap
+offset_top = offset_bottom = leftover / 2   (στην ειδική περίπτωση rebate == sill_rebate)
+
+
+leftover = 2*frame.width - (rebate + sill_rebate) - 2*join.overlap
+leftover = 2 *79 - (32 + 20) - 2 * 6 = 94
+
+offset_top = offset_bottom = leftover / 2
+offset_top = 94 / 2 = 47
+
+
+
+offset_top    = frame.width - rebate      - join.overlap
+offset_top = 79 - 32 - 6 = 41
+
+offset_bottom = frame.width - sill_rebate - join.overlap
+offset_bottom = 79 - 20 - 6 = 53
+
+
+window->height = offset_top + sash_height + offset_bottom
+window->height = 41 + 406 + 53 = 500

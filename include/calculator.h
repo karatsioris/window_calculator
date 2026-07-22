@@ -62,10 +62,10 @@ typedef struct s_result
 
 typedef struct s_spin_data
 {
-    float *field;
-    t_window *win;
-    t_result *res;
-    GtkWidget *area;
+    float       *field;
+    t_window    *win;
+    t_result    *res;
+    GtkWidget   *area;
 } t_spin_data;
 
 
