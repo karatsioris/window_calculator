@@ -6,7 +6,8 @@ CPPFLAGS    = -Iinclude
 GTK_CFLAGS  = $(shell pkg-config --cflags gtk4)
 GTK_LIBS    = $(shell pkg-config --libs gtk4)
 
-SRCS        = src/calculator.c src/main.c src/visual.c
+SRCS        =	src/calculator.c src/main.c src/renderer.c src/gui.c
+
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)

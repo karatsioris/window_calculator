@@ -19,3 +19,7 @@ offset_bottom = 79 - 20 - 6 = 53
 
 window->height = offset_top + sash_height + offset_bottom
 window->height = 41 + 406 + 53 = 500
+
+
+glass_width = sash_width - 2 * ( sash.width - sash.glass_rebate_w) + 2 * gaps.glass_clearance
+
