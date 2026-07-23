@@ -1,6 +1,6 @@
 #include "calculator.h"
 
-#define REFERENCE_MAX_MM 6000.0
+#define REFERENCE_MAX_MM 4000.0
 
 static void	set_margin(GtkWidget *place, int num)
 {
@@ -256,7 +256,7 @@ void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gp
 
 	cairo_stroke (cr);
 
-
+	// falso pixaki
 	cairo_set_line_width (cr, 0.5);
 	cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
 
@@ -279,29 +279,50 @@ void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gp
 
 
 
-	
+	// lines of sash
 	/* --- ΑΡΙΣΤΕΡΗ ΠΛΕΥΡΑ  --- */
 	// Πάνω αριστερά
-	cairo_move_to(cr, sash_x + inner_pixaki_offset, sash_y + inner_offset);
-	cairo_line_to(cr, sash_x + inner_pixaki_offset, sash_y);
+	cairo_move_to(cr, sash_x + inner_offset, sash_y + inner_offset);
+	cairo_line_to(cr, sash_x + inner_offset, sash_y);
 
 	// Κάτω αριστερά
-	cairo_move_to(cr, sash_x + inner_pixaki_offset, sash_y + scaled_sash_h - inner_offset);
-	cairo_line_to(cr, sash_x + inner_pixaki_offset, sash_y + scaled_sash_h);
+	cairo_move_to(cr, sash_x + inner_offset, sash_y + scaled_sash_h - inner_offset);
+	cairo_line_to(cr, sash_x + inner_offset, sash_y + scaled_sash_h);
 
 
 	/* --- ΔΕΞΙΑ ΠΛΕΥΡΑ --- */
 	// Πάνω δεξιά
-	cairo_move_to(cr, sash_x + scaled_sash_w - inner_pixaki_offset, sash_y + inner_offset);
-	cairo_line_to(cr, sash_x + scaled_sash_w - inner_pixaki_offset, sash_y);
+	cairo_move_to(cr, sash_x + scaled_sash_w - inner_offset, sash_y + inner_offset);
+	cairo_line_to(cr, sash_x + scaled_sash_w - inner_offset, sash_y);
 
 	// Κάτω δεξιά
-	cairo_move_to(cr, sash_x + scaled_sash_w - inner_pixaki_offset, sash_y + scaled_sash_h - inner_offset);
-	cairo_line_to(cr, sash_x + scaled_sash_w - inner_pixaki_offset, sash_y + scaled_sash_h);
+	cairo_move_to(cr, sash_x + scaled_sash_w - inner_offset, sash_y + scaled_sash_h - inner_offset);
+	cairo_line_to(cr, sash_x + scaled_sash_w - inner_offset, sash_y + scaled_sash_h);
 
 	cairo_stroke(cr);
 
 
+
+	// line of frame
+	float inner_frame_offset = 47.0f * scale;
+	float inner_sill_offset = 53.0f * scale;
+	
+	cairo_move_to(cr, frame_x + inner_frame_offset , frame_y + scaled_offset_top);
+	cairo_line_to(cr, frame_x + inner_frame_offset, frame_y);
+
+	/* --- ΠΑΝΩ ΔΕΞΙΑ --- */
+	cairo_move_to(cr, frame_x + scaled_frame_w - inner_frame_offset, frame_y + scaled_offset_top);
+	cairo_line_to(cr, frame_x + scaled_frame_w - inner_frame_offset, frame_y);
+	
+	/* --- ΚΑΤΩ ΑΡΙΣΤΕΡΑ  --- */
+	cairo_move_to(cr, frame_x + inner_frame_offset, frame_y + scaled_frame_h - inner_sill_offset);
+	cairo_line_to(cr, frame_x + inner_frame_offset, frame_y + scaled_frame_h);
+
+	/* --- ΚΑΤΩ ΔΕΞΙΑ  --- */
+	cairo_move_to(cr, frame_x + scaled_frame_w - inner_frame_offset, frame_y + scaled_frame_h - inner_sill_offset);
+	cairo_line_to(cr, frame_x + scaled_frame_w - inner_frame_offset, frame_y + scaled_frame_h);
+	
+	cairo_stroke(cr);
 
 
 	// /**************8Draw dimention up ***************/
@@ -346,51 +367,99 @@ void draw_function (GtkDrawingArea *area, cairo_t *cr, int width, int height, gp
 	snprintf(height_str, sizeof(height_str), "%.0f mm", res->frame_height);
 
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0); /* Black color for dimensions */
-	cairo_set_line_width(cr, 1.0);
+	cairo_set_line_width(cr, 0.3);
 
-	/* --- TOP DIMENSION (WIDTH) --- */
-	double top_dim_y = frame_y - 25; // Height of horizontal line
+	/* --- TOP DIMENSION (WIDTH) frame --- */
+	double top_dim_y = frame_y - 55; // Height of horizontal line
 
-	// Extension lines
-	cairo_move_to(cr, frame_x, frame_y - 35);
+	// Extension lines frame
+	cairo_move_to(cr, frame_x, frame_y - 65);
 	cairo_line_to(cr, frame_x, frame_y - 5);
-	cairo_move_to(cr, frame_x + scaled_frame_w, frame_y - 35);
+	cairo_move_to(cr, frame_x + scaled_frame_w, frame_y - 65);
 	cairo_line_to(cr, frame_x + scaled_frame_w, frame_y - 5);
 
-	// Main dimension line
+	// Main dimension line frame
 	cairo_move_to(cr, frame_x, top_dim_y);
 	cairo_line_to(cr, frame_x + scaled_frame_w, top_dim_y);
 	cairo_stroke(cr);
 
 	// Draw Width Text (Centered above/on the top line)
-	draw_dimension_text(cr, 
-						frame_x + (scaled_frame_w / 2.0), // Center X
-						top_dim_y - 12,                    // Slightly above the line
-						width_str, 
-						0.0);                             // Horizontal text
+	draw_dimension_text(cr, frame_x + (scaled_frame_w / 2.0), top_dim_y - 12, width_str, 0.0);
+
+	/* --- TOP DIMENSION (WIDTH) sash --- */
+	double top_dim_y_sash = frame_y - 25; // Height of horizontal line
+
+	// Extension lines SASH
+	cairo_move_to(cr, sash_x , frame_y - 5);
+	cairo_line_to(cr, sash_x, top_dim_y_sash - 5);
+	cairo_move_to(cr, sash_x + scaled_sash_w , frame_y - 5);
+	cairo_line_to(cr, sash_x + scaled_sash_w , top_dim_y_sash - 5);
+
+	// Main dimension line SASH
+	cairo_move_to(cr, sash_x, top_dim_y_sash);
+	cairo_line_to(cr, sash_x + scaled_sash_w , top_dim_y_sash);
+	cairo_stroke(cr);
+
+	/* 4. Κείμενο Διάστασης (Κεντραρισμένο) */
+	char sash_width_str[32];
+	snprintf(sash_width_str, sizeof(sash_width_str), "%.0f mm", res->sash_width);
+
+	draw_dimension_text(cr, sash_x + (scaled_sash_w / 2.0), top_dim_y_sash - 12, sash_width_str, 0.0);
 
 
-	/* --- RIGHT DIMENSION (HEIGHT) --- */
-	double right_dim_x = frame_x + scaled_frame_w + 25; // X position of vertical line
 
-	// Extension lines
+
+
+
+
+
+	
+	/* --- RIGHT DIMENSION (HEIGHT) frame --- */
+	double right_dim_x = frame_x + scaled_frame_w + 55; // X position of vertical line
+
+	// Extension lines frame
 	cairo_move_to(cr, frame_x + scaled_frame_w + 5, frame_y);
-	cairo_line_to(cr, frame_x + scaled_frame_w + 35, frame_y);
+	cairo_line_to(cr, frame_x + scaled_frame_w + 65, frame_y);
 	cairo_move_to(cr, frame_x + scaled_frame_w + 5, frame_y + scaled_frame_h);
-	cairo_line_to(cr, frame_x + scaled_frame_w + 35, frame_y + scaled_frame_h);
+	cairo_line_to(cr, frame_x + scaled_frame_w + 65, frame_y + scaled_frame_h);
 
-	// Main dimension line
+	// Main dimension line frame
 	cairo_move_to(cr, right_dim_x, frame_y);
 	cairo_line_to(cr, right_dim_x, frame_y + scaled_frame_h);
 	cairo_stroke(cr);
 
 	// Draw Height Text (Rotated 90 degrees along the vertical line)
-	draw_dimension_text(cr, 
-						right_dim_x + 12,                  // Slightly to the right of line
-						frame_y + (scaled_frame_h / 2.0),  // Center Y
-						height_str, 
-						-G_PI / 2.0);                      // Rotated -90° (reads bottom-to-top)
+	draw_dimension_text(cr, right_dim_x + 12, frame_y + (scaled_frame_h / 2.0), height_str, -G_PI / 2.0);
 
+
+
+	// #####################################################
+	double sash_dim_x = frame_x + scaled_frame_w + 25; 
+
+	cairo_set_line_width(cr, 0.3);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+
+	/* 1. Πάνω Βοηθητική Γραμμή (Περασιά με το sash_y) */
+	// Ξεκινάει 5px ΔΕΞΙΑ από την κάσα και πάει μέχρι λίγο πιο δεξιά από τη γραμμή διάστασης
+	cairo_move_to(cr, frame_x + scaled_frame_w + 5, sash_y);
+	cairo_line_to(cr, sash_dim_x + 5, sash_y);
+
+	/* 2. Κάτω Βοηθητική Γραμμή (Περασιά με το sash_y + scaled_sash_h) */
+	cairo_move_to(cr, frame_x + scaled_frame_w + 5, sash_y + scaled_sash_h);
+	cairo_line_to(cr, sash_dim_x + 5, sash_y + scaled_sash_h);
+
+	/* 3. Κύρια Κατακόρυφη Γραμμή Διάστασης */
+	cairo_move_to(cr, sash_dim_x, sash_y);
+	cairo_line_to(cr, sash_dim_x, sash_y + scaled_sash_h);
+
+	cairo_stroke(cr);
+
+	/* 4. Κείμενο Διάστασης (Κεντραρισμένο & Περιστραμμένο κατά -90°) */
+	char sash_height_str[32];
+	snprintf(sash_height_str, sizeof(sash_height_str), "%.0f mm", res->sash_height);
+
+	draw_dimension_text(cr, sash_dim_x + 12, sash_y + (scaled_sash_h / 2.0), sash_height_str,  -G_PI / 2.0);
+	
 }
 
 
