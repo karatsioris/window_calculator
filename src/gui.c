@@ -97,9 +97,6 @@ void activate(GtkApplication *app, gpointer data)
     gtk_window_set_title(GTK_WINDOW(window), "Window calculator");
     // gtk_window_set_default_size(GTK_WINDOW(window), 1200, 1200);
     gtk_window_set_child(GTK_WINDOW(window), box);
-	
-	RsvgHandle *handle = rsvg_handle_new_from_file("A.svg", NULL);
-    rsvg_handle_render_cairo(handle, window);
 
 	gtk_window_maximize(GTK_WINDOW(window));
     gtk_window_present(GTK_WINDOW(window));
