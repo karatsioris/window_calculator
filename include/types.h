@@ -46,6 +46,13 @@ typedef struct s_window
     t_hardware_gaps		gaps;
 } t_window;
 
+typedef struct s_profile_config
+{
+    t_frame_profile	frame;
+    t_sash_profile 	sash;
+    t_hardware_gaps	gaps;
+} t_profile_config;
+
 typedef struct s_result
 {
     float	frame_width;

@@ -3,3 +3,4 @@ win_calc
 info.txt
 meson.build
 build/
+gitignore_export_dxf.c

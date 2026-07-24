@@ -4,30 +4,33 @@
 
 #include "calculator.h"
 #include "gui.h"
-
-
-void    initialization(t_window *win)
-{
-    win->width = 500;
-    win->height = 500;
-    win->sash.width = 75;
-    win->frame.width = 79;
-    win->frame.rebate_width = 32;
-    win->frame.sill_rebate = 20;
-    win->sash.overlap = 6;
-    win->sash.bead_width = 15;
-}
+#include"config.h"
 
 
 int main(int argc, char **argv)
 {
-    GtkApplication *app;
-    int status;
-    t_window    *win = NULL;
+    GtkApplication		*app;
+    t_window			*win = NULL;
+	t_profile_config	*cfg = NULL;
+    int					status;
+	const char			*filename = "config.ini";
 
     win = malloc(sizeof (t_window));
+	cfg = malloc(sizeof (t_profile_config));
   
-    initialization(win);
+	if (!win || !cfg)
+	{
+        g_printerr("Error: Memory allocation failed!\n");
+        return 1;
+    }
+ 
+	if (!load_config_from_ini(filename, cfg))
+    {
+        load_default_config(cfg);
+        save_config_to_ini(filename,cfg);
+    }
+  
+	init_window(win,cfg);
 
     app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_DEFAULT_FLAGS);
     // app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_NON_UNIQUE);
@@ -39,6 +42,7 @@ int main(int argc, char **argv)
     g_object_unref(app);
 
 	free(win);
+	free(cfg);
     return status;
 
 }

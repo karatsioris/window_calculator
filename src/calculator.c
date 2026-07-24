@@ -11,4 +11,10 @@ void calculate_dimensions( t_window *win, t_result *res)
 
     res->frame_width = win->width;
     res->frame_height = win->height;
+
+    res->glass_width = win->sash.width - 2 * (win->sash.width - win->sash.glass_rebate_w) + 2 * win->gaps.glass_clearance;
+    res->glass_height = win->sash.width - 2 * (win->sash.width - win->sash.glass_rebate_w) + 2 * win->gaps.glass_clearance;
+
+    
+
 }
