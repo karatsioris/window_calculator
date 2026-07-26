@@ -20,6 +20,9 @@ void load_default_config(t_profile_config *cfg)
 
     cfg->gaps.air_gap = 4.0f;
     cfg->gaps.glass_clearance = 2.0f;
+
+	// cfg->opening_dir = OPEN_LEFT;
+    // cfg->mechanism = MECH_TURN_ONLY;
 }
 
 void init_window(t_window *win,const t_profile_config *cfg)
@@ -34,6 +37,9 @@ void init_window(t_window *win,const t_profile_config *cfg)
 	win->frame = cfg->frame;
 	win->sash = cfg->sash;
 	win->gaps = cfg->gaps;
+
+	// win->opening_dir = cfg->opening_dir;
+    // win->mechanism   = cfg->mechanism;
 }
 
 gboolean load_config_from_ini(const char *filename, t_profile_config *cfg)
@@ -68,6 +74,16 @@ gboolean load_config_from_ini(const char *filename, t_profile_config *cfg)
     cfg->gaps.air_gap         = g_key_file_get_double(keyfile, "Gaps", "air_gap", NULL);
     cfg->gaps.glass_clearance = g_key_file_get_double(keyfile, "Gaps", "glass_clearance", NULL);
 
+	// if (g_key_file_has_key(keyfile, "Hardware", "opening_dir", NULL))
+    // 	cfg->opening_dir = (t_opening_dir)g_key_file_get_integer(keyfile, "Hardware", "opening_dir", NULL);
+	// else
+    // 	cfg->opening_dir = OPEN_LEFT; // Default
+
+	// if (g_key_file_has_key(keyfile, "Hardware", "mechanism", NULL))
+	// 	cfg->mechanism = (t_mechanism_type)g_key_file_get_integer(keyfile, "Hardware", "mechanism", NULL);
+	// else
+	// 	cfg->mechanism = MECH_TURN_ONLY; // Default
+
     g_key_file_free(keyfile);
     return TRUE;
 }
@@ -92,6 +108,9 @@ void save_config_to_ini(const char *filename, const t_profile_config *cfg)
 
     g_key_file_set_double(keyfile, "Gaps", "air_gap", cfg->gaps.air_gap);
     g_key_file_set_double(keyfile, "Gaps", "glass_clearance", cfg->gaps.glass_clearance);
+
+	// g_key_file_set_integer(keyfile, "Hardware", "opening_dir", (int)cfg->opening_dir);
+	// g_key_file_set_integer(keyfile, "Hardware", "mechanism", (int)cfg->mechanism);
 
     g_key_file_save_to_file(keyfile, filename, NULL);
     g_key_file_free(keyfile);

@@ -102,7 +102,7 @@ static void		calculated_scaled_vars(int width,t_spin_data *data, t_scaled_vars *
 {
     
 	float	scale = (float)width / REFERENCE_MAX_MM;
-	float	offset_top			= data->win->frame.width - data->win->frame.rebate_width - data->win->sash.overlap; // 41mm
+	float	offset_top				= data->win->frame.width - data->win->frame.rebate_width - data->win->sash.overlap; // 41mm
 	
 	scaled_var->frame_w				= data->res->frame_width * scale;
     scaled_var->frame_h				= data->res->frame_height * scale;
@@ -190,6 +190,7 @@ static void draw_sash_lines(cairo_t *cr, float sash_x, float sash_y, const t_sca
     cairo_stroke(cr);
 }
 
+
 static void draw_all_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x, float sash_y, 
                                 const t_scaled_vars *sv, const t_result *res)
 {
@@ -221,6 +222,68 @@ static void draw_all_dimensions(cairo_t *cr, float frame_x, float frame_y, float
 							sash_dim_x + DIM_EXT_OVERHANG);
 }
 
+// static void draw_fixed_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x, float sash_y, 
+//                                 const t_scaled_vars *sv, const t_result *res)
+// {
+//     // double frame_dim_y = frame_y - DIM_OFFSET_OUTER;
+// 	(void)frame_x;
+// 	(void)frame_y;
+//     double sash_dim_y  = sash_y - DIM_OFFSET_INNER;
+//     double sash_dim_x  = sash_x + sv->frame_w + DIM_OFFSET_INNER;
+
+//     draw_horizontal_dimension(cr, sash_x, sash_x + sv->sash_w, sash_dim_y,
+// 								res->sash_width,
+// 								sash_dim_y - DIM_EXT_OVERHANG,
+// 								frame_y - DIM_EXT_GAP);
+
+//     draw_vertical_dimension(cr, sash_y, sash_y + sv->sash_h, sash_dim_x,
+// 							res->sash_height,
+// 							frame_x + sv->frame_w + DIM_EXT_GAP,
+// 							sash_dim_x + DIM_EXT_OVERHANG);
+// }
+
+
+static void draw_opening_symbol(cairo_t *cr, double x, double y, double w, double h,
+								t_opening_dir dir, t_mechanism_type mech)
+{
+	
+	cairo_save(cr);
+	double	dashes[] = {6.0, 4,0};
+	cairo_set_dash(cr, dashes, 2, 0);
+	cairo_set_line_width(cr, 0.5);
+	cairo_set_source_rgb(cr, 0.4, 0.4, 0.4);
+	
+	if(mech == MECH_FIXED)
+	{
+		cairo_move_to(cr, x, y);
+		cairo_line_to(cr, x + w, y + h);
+		cairo_move_to(cr, x, y + h);
+    	cairo_line_to(cr, x + w, y);
+	}
+	else if(dir == OPEN_LEFT)
+	{
+		cairo_move_to(cr, x, y);
+		cairo_line_to(cr, x + w, y + h / 2.0);
+		cairo_line_to(cr, x, y + h);
+	}
+	else
+	{
+		cairo_move_to(cr, x + w, y);
+		cairo_line_to(cr, x , y + h / 2.0);
+		cairo_line_to(cr, x + w, y + h);
+	}
+	if (mech == MECH_TILT_AND_TURN)
+	{
+        cairo_move_to(cr, x, y + h);
+        cairo_line_to(cr, x + w / 2.0, y);
+        cairo_line_to(cr, x + w, y + h);
+    }
+
+
+    cairo_stroke(cr);
+    cairo_restore(cr);
+}
+
 /* --- 3. MAIN GTK DRAW FUNCTION --- */
 
 void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data)
@@ -236,15 +299,38 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpo
 
     float frame_x = (width  / 2.0f) - (sv.frame_w / 2.0f);
     float frame_y = (height / 2.0f) - (sv.frame_h / 2.0f);
-    float sash_x  = frame_x + (sv.frame_w - sv.sash_w) / 2.0f;
-    float sash_y  = frame_y + sv.offset_top;
+    float sash_x;
+    float sash_y;
+	
+
+	if (spin_data->win->mechanism == MECH_FIXED)
+    {
+        sash_x = frame_x;
+        sash_y = frame_y;
+    }
+    else
+    {
+        sash_x = frame_x + (sv.frame_w - sv.sash_w) / 2.0f;
+        sash_y = frame_y + sv.offset_top;
+    }
 
     // Background
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     cairo_paint(cr);
 
     // Drawing Geometry & Dimensions
-    draw_frame_lines(cr, frame_x, frame_y, &sv);
-    draw_sash_lines(cr, sash_x, sash_y, &sv);
-    draw_all_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, spin_data->res);
+	if(spin_data->win->mechanism == MECH_FIXED)
+	{
+		draw_sash_lines(cr, sash_x, sash_y, &sv);
+		// draw_fixed_lines(cr, frame_x, frame_y, &sv);
+		draw_opening_symbol(cr, sash_x, sash_y, sv.sash_w, sv.sash_h, spin_data->win->opening_dir, spin_data->win->mechanism);
+		// draw_fixed_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, spin_data->res);
+	}
+	else
+	{
+		draw_frame_lines(cr, frame_x, frame_y, &sv);
+		draw_sash_lines(cr, sash_x, sash_y, &sv);
+		draw_opening_symbol(cr, sash_x, sash_y, sv.sash_w, sv.sash_h, spin_data->win->opening_dir, spin_data->win->mechanism);
+		draw_all_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, spin_data->res);
+	}
 }

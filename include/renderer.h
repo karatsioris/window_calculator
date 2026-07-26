@@ -27,11 +27,8 @@ typedef struct s_scaled_vars
 
 
 void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data);
-
 void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
-
 void draw_horizontal_dimension(cairo_t *cr, double x1, double x2, double line_y, float value_mm, double ext_start, double ext_end);
-
 void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
 
 #endif

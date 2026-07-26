@@ -27,16 +27,21 @@ int main(int argc, char **argv)
 	if (!load_config_from_ini(filename, cfg))
     {
         load_default_config(cfg);
-        save_config_to_ini(filename,cfg);
+        save_config_to_ini(filename, cfg);
     }
   
 	init_window(win,cfg);
 
     app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_DEFAULT_FLAGS);
-    // app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_NON_UNIQUE);
+	
+	t_spin_data *app_data = g_new0(t_spin_data, 1);
+    app_data->win = win;
+    app_data->cfg = cfg;
 
-    g_signal_connect(app, "activate", G_CALLBACK(activate), win);
-    
+    g_signal_connect(app, "activate", G_CALLBACK(activate), app_data);
+
+	g_signal_connect(app, "shutdown", G_CALLBACK(on_app_shutdown), app_data);
+
     status = g_application_run(G_APPLICATION(app), argc, argv);
     
     g_object_unref(app);

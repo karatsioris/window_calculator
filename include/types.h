@@ -8,6 +8,19 @@ typedef enum e_window_type
     WINDOW_FIXED
 } t_window_type;
 
+typedef enum e_opening_dir
+{
+	OPEN_LEFT,
+	OPEN_RIGHT
+} t_opening_dir;
+
+typedef	enum e_mechanism_type
+{
+	MECH_TURN_ONLY,
+	MECH_TILT_AND_TURN,
+	MECH_FIXED
+} t_mechanism_type;
+
 typedef struct s_frame_profile
 {
 	float	depth;			// 68mm, 78mm, 92mm
@@ -25,7 +38,7 @@ typedef struct s_sash_profile
 	float	rebate_depth;	// 12mm
     float	overlap;		// 6mm
 
-    float	glass_rebate_w;
+    float	glass_rebate_w; // 4mm
     float	bead_width;		// 15mm
 } t_sash_profile;
 
@@ -38,6 +51,8 @@ typedef struct s_hardware_gaps
 typedef struct s_window
 {
     t_window_type		type;
+	t_opening_dir		opening_dir;
+	t_mechanism_type	mechanism;
     float				width;
     float				height;
 
@@ -48,9 +63,9 @@ typedef struct s_window
 
 typedef struct s_profile_config
 {
-    t_frame_profile	frame;
-    t_sash_profile 	sash;
-    t_hardware_gaps	gaps;
+    t_frame_profile		frame;
+    t_sash_profile 		sash;
+    t_hardware_gaps		gaps;
 } t_profile_config;
 
 typedef struct s_result
