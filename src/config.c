@@ -25,6 +25,26 @@ void load_default_config(t_profile_config *cfg)
     // cfg->mechanism = MECH_TURN_ONLY;
 }
 
+// because i use the t_app_context i can use this function for init
+// void init_app_context(t_app_context *ctx)
+// {
+//     if (!ctx)
+//         return;
+
+//     /* Initialize Window Instance */
+//     ctx->win.type = WINDOW_SINGLE_SASH;
+//     ctx->win.width = 500.0f;
+//     ctx->win.height = 500.0f;
+//     ctx->win.opening_dir = OPEN_LEFT;
+//     ctx->win.mechanism = MECH_TURN_ONLY;
+
+//     /* Load system profile defaults if not already loaded */
+//     load_default_config(&ctx->cfg);
+// }
+
+
+
+
 void init_window(t_window *win,const t_profile_config *cfg)
 {
 	if (!win || !cfg)
@@ -34,12 +54,12 @@ void init_window(t_window *win,const t_profile_config *cfg)
     win->width = 500.0f;
     win->height = 500.0f;
     
-	win->frame = cfg->frame;
-	win->sash = cfg->sash;
-	win->gaps = cfg->gaps;
+	// win->frame = cfg->frame;
+	// win->sash = cfg->sash;
+	// win->gaps = cfg->gaps;
 
-	// win->opening_dir = cfg->opening_dir;
-    // win->mechanism   = cfg->mechanism;
+	win->opening_dir = OPEN_LEFT;
+    win->mechanism   = MECH_TURN_ONLY;
 }
 
 gboolean load_config_from_ini(const char *filename, t_profile_config *cfg)
@@ -115,3 +135,71 @@ void save_config_to_ini(const char *filename, const t_profile_config *cfg)
     g_key_file_save_to_file(keyfile, filename, NULL);
     g_key_file_free(keyfile);
 }
+
+int	save_project_to_win(const char *filepath, const t_app_context *ctx)
+{
+	FILE *f = fopen(filepath, "w");
+	if(!f)
+		return 0;
+
+	fprintf(f, "[Window]\n");
+	fprintf(f,"width=%.1fn\n", ctx->win.width);
+	fprintf(f, "height=%.1f\n", ctx->win.height);
+    fprintf(f, "mechanism=%d\n", ctx->win.mechanism);
+    fprintf(f, "opening_dir=%d\n", ctx->win.opening_dir);
+    fprintf(f, "type=%d\n\n", ctx->win.type);
+
+	fprintf(f, "[Frame]\n");
+    fprintf(f, "width=%.1f\n", ctx->cfg.frame.width);
+    fprintf(f, "rebate_width=%.1f\n\n", ctx->cfg.frame.rebate_width);
+
+	fprintf(f, "[Sash]\n");
+    fprintf(f, "width=%.1f\n", ctx->cfg.sash.width);
+    fprintf(f, "overlap=%.1f\n", ctx->cfg.sash.overlap);
+
+	fclose(f);
+	return 1;
+}
+
+int load_project_from_win(const char *filepath, t_app_context *ctx)
+{
+	FILE *f = fopen(filepath, "r");
+	if(!f)
+		return 0;
+
+	char line[128];
+    char section[32] = "";
+
+    while (fgets(line, sizeof(line), f)) {
+        if (line[0] == '[' && strchr(line, ']')) {
+            sscanf(line, "[%31[^]]]", section);
+            continue;
+        }
+
+        float fval;
+        int ival;
+
+        if (strcmp(section, "Window") == 0)
+		{
+            if (sscanf(line, "width=%f", &fval) == 1) ctx->win.width = fval;
+            else if (sscanf(line, "height=%f", &fval) == 1) ctx->win.height = fval;
+            else if (sscanf(line, "mechanism=%d", &ival) == 1) ctx->win.mechanism = (t_mechanism_type)ival;
+            else if (sscanf(line, "opening_dir=%d", &ival) == 1) ctx->win.opening_dir = (t_opening_dir)ival;
+            else if (sscanf(line, "type=%d", &ival) == 1) ctx->win.type = (t_window_type)ival;
+        }
+        else if (strcmp(section, "Frame") == 0)
+		{
+            if (sscanf(line, "width=%f", &fval) == 1) ctx->cfg.frame.width = fval;
+            else if (sscanf(line, "rebate_width=%f", &fval) == 1) ctx->cfg.frame.rebate_width = fval;
+        }
+        else if (strcmp(section, "Sash") == 0)
+		{
+            if (sscanf(line, "width=%f", &fval) == 1) ctx->cfg.sash.width = fval;
+            else if (sscanf(line, "overlap=%f", &fval) == 1) ctx->cfg.sash.overlap = fval;
+        }
+    }
+
+    fclose(f);
+    return 1;
+}
+

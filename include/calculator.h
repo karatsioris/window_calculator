@@ -6,6 +6,6 @@
 
 void window_init_defaults(t_window *win);
 
-void calculate_dimensions(t_window *win, t_result *res);
+void calculate_dimensions( t_window *win, t_result *res, const t_profile_config *cfg);
 
 #endif

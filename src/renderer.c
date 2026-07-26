@@ -98,21 +98,23 @@ void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, doub
 }
 
 
-static void		calculated_scaled_vars(int width,t_spin_data *data, t_scaled_vars *scaled_var)
+static void		calculated_scaled_vars(int width, t_app_context *ctx, t_scaled_vars *scaled_var)
 {
-    
+    if (!ctx || !scaled_var)
+        return;
+
 	float	scale = (float)width / REFERENCE_MAX_MM;
-	float	offset_top				= data->win->frame.width - data->win->frame.rebate_width - data->win->sash.overlap; // 41mm
+	float	offset_top				= ctx->cfg.frame.width - ctx->cfg.frame.rebate_width - ctx->cfg.sash.overlap; // 41mm
 	
-	scaled_var->frame_w				= data->res->frame_width * scale;
-    scaled_var->frame_h				= data->res->frame_height * scale;
-    scaled_var->sash_w				= data->res->sash_width * scale;
-    scaled_var->sash_h				= data->res->sash_height * scale;
+	scaled_var->frame_w				= ctx->res.frame_width * scale;
+    scaled_var->frame_h				= ctx->res.frame_height * scale;
+    scaled_var->sash_w				= ctx->res.sash_width * scale;
+    scaled_var->sash_h				= ctx->res.sash_height * scale;
 	scaled_var->offset_top			=	offset_top * scale;
-	scaled_var->inner_frame_offset	= (offset_top + data->win->sash.overlap) * scale; // 47mm
-	scaled_var->inner_sill_offset	= (data->win->frame.width - data->win->frame.sill_rebate - data->win->sash.overlap) * scale;
-	scaled_var->sash_visible_w		= (data->win->sash.width - data->win->sash.bead_width) * scale;
-	scaled_var->sash_w_profile		= data->win->sash.width * scale;	
+	scaled_var->inner_frame_offset	= (offset_top + ctx->cfg.sash.overlap) * scale; // 47mm
+	scaled_var->inner_sill_offset	= (ctx->cfg.frame.width - ctx->cfg.frame.sill_rebate - ctx->cfg.sash.overlap) * scale;
+	scaled_var->sash_visible_w		= (ctx->cfg.sash.width - ctx->cfg.sash.bead_width) * scale;
+	scaled_var->sash_w_profile		= ctx->cfg.sash.width * scale;	
 }
 
 
@@ -222,25 +224,25 @@ static void draw_all_dimensions(cairo_t *cr, float frame_x, float frame_y, float
 							sash_dim_x + DIM_EXT_OVERHANG);
 }
 
-// static void draw_fixed_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x, float sash_y, 
-//                                 const t_scaled_vars *sv, const t_result *res)
-// {
-//     // double frame_dim_y = frame_y - DIM_OFFSET_OUTER;
-// 	(void)frame_x;
-// 	(void)frame_y;
-//     double sash_dim_y  = sash_y - DIM_OFFSET_INNER;
-//     double sash_dim_x  = sash_x + sv->frame_w + DIM_OFFSET_INNER;
+static void draw_fixed_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x, float sash_y, 
+                                const t_scaled_vars *sv, const t_result *res)
+{
+    // double frame_dim_y = frame_y - DIM_OFFSET_OUTER;
+	(void)frame_x;
+	(void)frame_y;
+    double sash_dim_y  = sash_y - DIM_OFFSET_INNER;
+    double sash_dim_x  = sash_x + sv->frame_w + DIM_OFFSET_INNER;
 
-//     draw_horizontal_dimension(cr, sash_x, sash_x + sv->sash_w, sash_dim_y,
-// 								res->sash_width,
-// 								sash_dim_y - DIM_EXT_OVERHANG,
-// 								frame_y - DIM_EXT_GAP);
+    draw_horizontal_dimension(cr, sash_x, sash_x + sv->sash_w, sash_dim_y,
+								res->sash_width,
+								sash_dim_y - DIM_EXT_OVERHANG,
+								frame_y - DIM_EXT_GAP);
 
-//     draw_vertical_dimension(cr, sash_y, sash_y + sv->sash_h, sash_dim_x,
-// 							res->sash_height,
-// 							frame_x + sv->frame_w + DIM_EXT_GAP,
-// 							sash_dim_x + DIM_EXT_OVERHANG);
-// }
+    draw_vertical_dimension(cr, sash_y, sash_y + sv->sash_h, sash_dim_x,
+							res->sash_height,
+							frame_x + sv->frame_w + DIM_EXT_GAP,
+							sash_dim_x + DIM_EXT_OVERHANG);
+}
 
 
 static void draw_opening_symbol(cairo_t *cr, double x, double y, double w, double h,
@@ -289,13 +291,12 @@ static void draw_opening_symbol(cairo_t *cr, double x, double y, double w, doubl
 void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data)
 {
     (void)area;
-    t_spin_data   *spin_data = (t_spin_data *)data;
+    t_app_context *ctx = (t_app_context *) data;
+    if (!ctx)
+        return;
     t_scaled_vars  sv;
 
-    if (!spin_data || !spin_data->win || !spin_data->res)
-        return;
-
-    calculated_scaled_vars(width, spin_data, &sv);
+    calculated_scaled_vars(width, ctx, &sv);
 
     float frame_x = (width  / 2.0f) - (sv.frame_w / 2.0f);
     float frame_y = (height / 2.0f) - (sv.frame_h / 2.0f);
@@ -303,7 +304,7 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpo
     float sash_y;
 	
 
-	if (spin_data->win->mechanism == MECH_FIXED)
+	if (ctx->win.mechanism == MECH_FIXED)
     {
         sash_x = frame_x;
         sash_y = frame_y;
@@ -319,18 +320,17 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpo
     cairo_paint(cr);
 
     // Drawing Geometry & Dimensions
-	if(spin_data->win->mechanism == MECH_FIXED)
+	if(ctx->win.mechanism == MECH_FIXED)
 	{
 		draw_sash_lines(cr, sash_x, sash_y, &sv);
-		// draw_fixed_lines(cr, frame_x, frame_y, &sv);
-		draw_opening_symbol(cr, sash_x, sash_y, sv.sash_w, sv.sash_h, spin_data->win->opening_dir, spin_data->win->mechanism);
-		// draw_fixed_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, spin_data->res);
+		draw_opening_symbol(cr, sash_x, sash_y, sv.sash_w, sv.sash_h, ctx->win.opening_dir, ctx->win.mechanism);
+		draw_fixed_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, &ctx->res);
 	}
 	else
 	{
 		draw_frame_lines(cr, frame_x, frame_y, &sv);
 		draw_sash_lines(cr, sash_x, sash_y, &sv);
-		draw_opening_symbol(cr, sash_x, sash_y, sv.sash_w, sv.sash_h, spin_data->win->opening_dir, spin_data->win->mechanism);
-		draw_all_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, spin_data->res);
+		draw_opening_symbol(cr, sash_x, sash_y, sv.sash_w, sv.sash_h, ctx->win.opening_dir, ctx->win.mechanism);
+		draw_all_dimensions(cr, frame_x, frame_y, sash_x, sash_y, &sv, &ctx->res);
 	}
 }

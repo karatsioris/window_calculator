@@ -6,8 +6,13 @@
 
 
 void        load_default_config(t_profile_config *cfg);
+void        init_window(t_window *win, const t_profile_config *cfg);
+
 gboolean    load_config_from_ini(const char *filename, t_profile_config *cfg);
 void        save_config_to_ini(const char *filename, const t_profile_config *cfg);
-void        init_window(t_window *win, const t_profile_config *cfg);
+
+
+gboolean	save_window_to_win(const char *filename, const t_window *win, const t_profile_config *cfg);
+int			load_project_from_win(const char *filepath, t_app_context *ctx);
 
 #endif

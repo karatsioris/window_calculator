@@ -1,6 +1,9 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+
+#include <gtk/gtk.h>	
+
 typedef enum e_window_type
 {
     WINDOW_SINGLE_SASH,
@@ -55,10 +58,6 @@ typedef struct s_window
 	t_mechanism_type	mechanism;
     float				width;
     float				height;
-
-    t_frame_profile		frame;
-    t_sash_profile		sash;
-    t_hardware_gaps		gaps;
 } t_window;
 
 typedef struct s_profile_config
@@ -85,4 +84,20 @@ typedef struct s_result
     float	glass_width;
     float	glass_height;
 } t_result;
+
+typedef struct s_app_context
+{
+    t_window         win;
+    t_profile_config cfg;
+    t_result         res;
+
+    GtkWidget       *area;
+    GtkWidget       *main_window;
+    
+    GtkSpinButton   *spin_width;
+    GtkSpinButton   *spin_height;
+    GtkDropDown     *drop_direction;
+    GtkDropDown     *drop_mechanism;
+} t_app_context;
+
 #endif
