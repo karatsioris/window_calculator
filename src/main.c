@@ -28,7 +28,8 @@ int main(int argc, char **argv)
         save_config_to_ini(filename, &ctx->cfg);
     }
   
-	init_window(&ctx->win, &ctx->cfg);
+	// init_window(&ctx->win, &ctx->cfg);
+	init_app_context(ctx);
 
     app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_DEFAULT_FLAGS);
 	
@@ -39,6 +40,7 @@ int main(int argc, char **argv)
 
     status = g_application_run(G_APPLICATION(app), argc, argv);
     
+
     g_object_unref(app);
 	g_free(ctx);
     return status;

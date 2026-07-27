@@ -85,14 +85,31 @@ typedef struct s_result
     float	glass_height;
 } t_result;
 
+typedef struct s_cut_list_widgets
+{
+    GtkWidget *lbl_frame_v_raw;
+    GtkWidget *lbl_frame_v_net;
+    GtkWidget *lbl_frame_h_raw;
+    GtkWidget *lbl_frame_h_net;
+    GtkWidget *lbl_sash_v_raw;
+    GtkWidget *lbl_sash_v_net;
+    GtkWidget *lbl_sash_h_raw;
+    GtkWidget *lbl_sash_h_net;
+    GtkWidget *lbl_glass_net;
+} t_cut_list_widgets;
+
 typedef struct s_app_context
 {
     t_window         win;
     t_profile_config cfg;
     t_result         res;
+	t_cut_list_widgets cut_list_ui;
 
     GtkWidget       *area;
     GtkWidget       *main_window;
+	GtkWidget       *box;
+
+    GtkWidget       *right_panel;
     
     GtkSpinButton   *spin_width;
     GtkSpinButton   *spin_height;

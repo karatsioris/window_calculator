@@ -2,9 +2,12 @@
 
 void calculate_dimensions( t_window *win, t_result *res, const t_profile_config *cfg)
 {
+	if (!win || !res || !cfg)
+        return;
+
 	if(win->mechanism == MECH_FIXED)
 	{
-		res->sash_width = win->width ;
+		res->sash_width = win->width;
 		res->sash_height = win->height;
 	}
 	else

@@ -20,47 +20,41 @@ void load_default_config(t_profile_config *cfg)
 
     cfg->gaps.air_gap = 4.0f;
     cfg->gaps.glass_clearance = 2.0f;
-
-	// cfg->opening_dir = OPEN_LEFT;
-    // cfg->mechanism = MECH_TURN_ONLY;
 }
 
 // because i use the t_app_context i can use this function for init
-// void init_app_context(t_app_context *ctx)
-// {
-//     if (!ctx)
-//         return;
-
-//     /* Initialize Window Instance */
-//     ctx->win.type = WINDOW_SINGLE_SASH;
-//     ctx->win.width = 500.0f;
-//     ctx->win.height = 500.0f;
-//     ctx->win.opening_dir = OPEN_LEFT;
-//     ctx->win.mechanism = MECH_TURN_ONLY;
-
-//     /* Load system profile defaults if not already loaded */
-//     load_default_config(&ctx->cfg);
-// }
-
-
-
-
-void init_window(t_window *win,const t_profile_config *cfg)
+void init_app_context(t_app_context *ctx)
 {
-	if (!win || !cfg)
+    if (!ctx)
         return;
 
-	win->type = WINDOW_SINGLE_SASH;
-    win->width = 500.0f;
-    win->height = 500.0f;
-    
-	// win->frame = cfg->frame;
-	// win->sash = cfg->sash;
-	// win->gaps = cfg->gaps;
+    /* Initialize Window Instance */
+    ctx->win.type = WINDOW_SINGLE_SASH;
+    ctx->win.width = 500.0f;
+    ctx->win.height = 500.0f;
+    ctx->win.opening_dir = OPEN_LEFT;
+    ctx->win.mechanism = MECH_TURN_ONLY;
 
-	win->opening_dir = OPEN_LEFT;
-    win->mechanism   = MECH_TURN_ONLY;
+    /* Load system profile defaults if not already loaded */
+    load_default_config(&ctx->cfg);
 }
+
+
+
+
+// void init_window(t_window *win,const t_profile_config *cfg)
+// {
+// 	if (!win || !cfg)
+//         return;
+
+// 	win->type = WINDOW_SINGLE_SASH;
+//     win->width = 500.0f;
+//     win->height = 500.0f;
+
+// 	win->opening_dir = OPEN_LEFT;
+//     win->mechanism   = MECH_TURN_ONLY;
+// }
+
 
 gboolean load_config_from_ini(const char *filename, t_profile_config *cfg)
 {
@@ -94,19 +88,10 @@ gboolean load_config_from_ini(const char *filename, t_profile_config *cfg)
     cfg->gaps.air_gap         = g_key_file_get_double(keyfile, "Gaps", "air_gap", NULL);
     cfg->gaps.glass_clearance = g_key_file_get_double(keyfile, "Gaps", "glass_clearance", NULL);
 
-	// if (g_key_file_has_key(keyfile, "Hardware", "opening_dir", NULL))
-    // 	cfg->opening_dir = (t_opening_dir)g_key_file_get_integer(keyfile, "Hardware", "opening_dir", NULL);
-	// else
-    // 	cfg->opening_dir = OPEN_LEFT; // Default
-
-	// if (g_key_file_has_key(keyfile, "Hardware", "mechanism", NULL))
-	// 	cfg->mechanism = (t_mechanism_type)g_key_file_get_integer(keyfile, "Hardware", "mechanism", NULL);
-	// else
-	// 	cfg->mechanism = MECH_TURN_ONLY; // Default
-
     g_key_file_free(keyfile);
     return TRUE;
 }
+
 
 void save_config_to_ini(const char *filename, const t_profile_config *cfg)
 {
@@ -128,9 +113,6 @@ void save_config_to_ini(const char *filename, const t_profile_config *cfg)
 
     g_key_file_set_double(keyfile, "Gaps", "air_gap", cfg->gaps.air_gap);
     g_key_file_set_double(keyfile, "Gaps", "glass_clearance", cfg->gaps.glass_clearance);
-
-	// g_key_file_set_integer(keyfile, "Hardware", "opening_dir", (int)cfg->opening_dir);
-	// g_key_file_set_integer(keyfile, "Hardware", "mechanism", (int)cfg->mechanism);
 
     g_key_file_save_to_file(keyfile, filename, NULL);
     g_key_file_free(keyfile);
@@ -170,8 +152,10 @@ int load_project_from_win(const char *filepath, t_app_context *ctx)
 	char line[128];
     char section[32] = "";
 
-    while (fgets(line, sizeof(line), f)) {
-        if (line[0] == '[' && strchr(line, ']')) {
+    while (fgets(line, sizeof(line), f))
+	{
+        if (line[0] == '[' && strchr(line, ']'))
+		{
             sscanf(line, "[%31[^]]]", section);
             continue;
         }
@@ -203,3 +187,37 @@ int load_project_from_win(const char *filepath, t_app_context *ctx)
     return 1;
 }
 
+gboolean save_window_to_win(const char *filename, const t_app_context *ctx)
+{
+    if (!filename || !ctx)
+        return FALSE;
+
+    GKeyFile *keyfile = g_key_file_new();
+
+    // 1. [Window] Section (Accessing win via ctx->win)
+    g_key_file_set_double(keyfile, "Window", "width", ctx->win.width);
+    g_key_file_set_double(keyfile, "Window", "height", ctx->win.height);
+    g_key_file_set_integer(keyfile, "Window", "mechanism", (int)ctx->win.mechanism);
+    g_key_file_set_integer(keyfile, "Window", "opening_dir", (int)ctx->win.opening_dir);
+
+    // 2. [Frame] Section (Accessing profile config via ctx->cfg)
+    g_key_file_set_double(keyfile, "Frame", "width", ctx->cfg.frame.width);
+    g_key_file_set_double(keyfile, "Frame", "rebate_width", ctx->cfg.frame.rebate_width);
+
+    // 3. [Sash] Section
+    g_key_file_set_double(keyfile, "Sash", "width", ctx->cfg.sash.width);
+    g_key_file_set_double(keyfile, "Sash", "overlap", ctx->cfg.sash.overlap);
+
+    GError *error = NULL;
+    gboolean success = g_key_file_save_to_file(keyfile, filename, &error);
+
+    if (!success)
+    {
+        g_printerr("Error saving WIN file: %s\n", error ? error->message : "Unknown");
+        if (error)
+            g_error_free(error);
+    }
+
+    g_key_file_free(keyfile);
+    return success;
+}
