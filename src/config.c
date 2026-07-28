@@ -34,9 +34,6 @@ void init_app_context(t_app_context *ctx)
     ctx->win.height = 500.0f;
     ctx->win.opening_dir = OPEN_LEFT;
     ctx->win.mechanism = MECH_TURN_ONLY;
-
-    /* Load system profile defaults if not already loaded */
-    load_default_config(&ctx->cfg);
 }
 
 

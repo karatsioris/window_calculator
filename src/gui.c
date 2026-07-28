@@ -4,7 +4,6 @@
 #include "config.h"
 #include "gui_cut_list.h"
 
-#define REFERENCE_MAX_MM 4000.0
 
 void	set_margin(GtkWidget *place, int num)
 {
@@ -38,20 +37,12 @@ static void on_dimension_spin_changed(GtkSpinButton *spin, gpointer user_data)
     update_cut_list_ui(ctx); 
 }
 
-// static void on_spinbutton_changed(GtkSpinButton *spin, gpointer data)
-// {
-//     t_spin_data *d = data;
-//     *d->field = (float)gtk_spin_button_get_value(spin);
-//     calculate_dimensions(d->win, d->res, d->cfg);
-//     gtk_widget_queue_draw(d->area);
-// }
-
 static GtkWidget *build_labeled_spinbutton(const char *label_text, float initial_value, GtkSpinButton **out_spin)
 {
     GtkWidget *label = gtk_label_new(label_text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     
-    GtkWidget *spin = gtk_spin_button_new_with_range(300, 3000, 10);
+    GtkWidget *spin = gtk_spin_button_new_with_range(300, 3000, 5);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (double)initial_value);
     // g_signal_connect(spin, "value-changed", G_CALLBACK(on_spinbutton_changed), sd);
 	
@@ -81,12 +72,6 @@ static void on_direction_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpoin
 	   
     gtk_widget_queue_draw(ctx->area);
 }
-
-
-
-
-
-
 
 
 void on_mechanism_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpointer user_data)
@@ -204,54 +189,131 @@ GtkWidget *build_sidebar(t_app_context *ctx)
 
 
 
-
-
-
+// with header for the buttons
 
 void activate(GtkApplication *app, gpointer user_data)
 {
-	t_app_context *ctx = (t_app_context *)user_data;
-	
+    t_app_context *ctx = (t_app_context *)user_data;
+    
     ctx->main_window = gtk_application_window_new(app);
     ctx->area = gtk_drawing_area_new();
-	
-	calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg);
-	
-    GtkWidget	*box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
-	GtkWidget	*sidebar = build_sidebar(ctx);
-	GtkWidget	*right_panel = build_cut_list_panel(ctx);
-	
+    
+    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg);
 
-    gtk_widget_set_size_request(sidebar, 250, -1);
-	set_margin(sidebar, 20);
-	
-	gtk_widget_set_hexpand(ctx->area, TRUE);
-    gtk_widget_set_vexpand(ctx->area, TRUE);
-	
-	// Σύνδεση Cairo Render Function
-    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(ctx->area), draw_function, ctx, NULL);
-	
-	// Save button
+    // --- Create Header Bar ---
+    GtkWidget *header_bar = gtk_header_bar_new();
+    gtk_window_set_titlebar(GTK_WINDOW(ctx->main_window), header_bar);
+    
+    
+    // Create a horizontal box container with 10px spacing between children
+    GtkWidget *btn_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+    set_margin(btn_box, 10);
+
+    // Insert Button
+    GtkWidget *insert_btn = gtk_button_new_with_label("Insert");
+    g_signal_connect(insert_btn, "clicked", G_CALLBACK(on_import_clicked), ctx);
+
+    // Save Button
     GtkWidget *save_btn = gtk_button_new_with_label("Save");
     g_signal_connect(save_btn, "clicked", G_CALLBACK(on_save_project_clicked), ctx);
-	
-	//Insert button
-	GtkWidget *insert_btn = gtk_button_new_with_label("Insert");
-	g_signal_connect(insert_btn, "clicked", G_CALLBACK(on_import_clicked), ctx);
-	
-	gtk_box_append(GTK_BOX(sidebar), insert_btn);
-    gtk_box_append(GTK_BOX(sidebar), save_btn);
+
+    // Append buttons to the box container
+    gtk_box_append(GTK_BOX(btn_box), insert_btn);
+    gtk_box_append(GTK_BOX(btn_box), save_btn);
+
+
+
+
+    // Pack the entire button box into the HeaderBar
+    gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), btn_box);
+
+
+
+
+
+
+
+
+    // // Insert Button (Start / Left side of titlebar)
+    // GtkWidget *insert_btn = gtk_button_new_with_label("Insert");
+    // g_signal_connect(insert_btn, "clicked", G_CALLBACK(on_import_clicked), ctx);
+    // gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), insert_btn);
+    
+
+    // // Save Button (Start / Left side of titlebar next to Insert)
+    // GtkWidget *save_btn = gtk_button_new_with_label("Save");
+    // g_signal_connect(save_btn, "clicked", G_CALLBACK(on_save_project_clicked), ctx);
+    // gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), save_btn);
+
+    // Build Layout...
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    GtkWidget *sidebar = build_sidebar(ctx);
+    GtkWidget *right_panel = build_cut_list_panel(ctx);
+
+    gtk_widget_set_size_request(sidebar, 250, -1);
+    set_margin(sidebar, 40);
+    
+    gtk_widget_set_hexpand(ctx->area, TRUE);
+    gtk_widget_set_vexpand(ctx->area, TRUE);
+    
+    gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(ctx->area), draw_function, ctx, NULL);
+    
     gtk_box_append(GTK_BOX(box), sidebar);
     gtk_box_append(GTK_BOX(box), ctx->area);
     gtk_box_append(GTK_BOX(box), right_panel);
-	
+    
     gtk_window_set_title(GTK_WINDOW(ctx->main_window), "Window calculator");
     gtk_window_set_child(GTK_WINDOW(ctx->main_window), box);
 
-	gtk_window_maximize(GTK_WINDOW(ctx->main_window));
+    gtk_window_maximize(GTK_WINDOW(ctx->main_window));
     gtk_window_present(GTK_WINDOW(ctx->main_window));
-
 }
+
+
+// void activate(GtkApplication *app, gpointer user_data)
+// {
+// 	t_app_context *ctx = (t_app_context *)user_data;
+	
+//     ctx->main_window = gtk_application_window_new(app);
+//     ctx->area = gtk_drawing_area_new();
+	
+// 	calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg);
+	
+//     GtkWidget	*box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
+// 	GtkWidget	*sidebar = build_sidebar(ctx);
+// 	GtkWidget	*right_panel = build_cut_list_panel(ctx);
+	
+
+//     gtk_widget_set_size_request(sidebar, 250, -1);
+// 	set_margin(sidebar, 40);
+	
+// 	gtk_widget_set_hexpand(ctx->area, TRUE);
+//     gtk_widget_set_vexpand(ctx->area, TRUE);
+	
+// 	// Σύνδεση Cairo Render Function
+//     gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(ctx->area), draw_function, ctx, NULL);
+	
+// 	// Save button
+//     GtkWidget *save_btn = gtk_button_new_with_label("Save");
+//     g_signal_connect(save_btn, "clicked", G_CALLBACK(on_save_project_clicked), ctx);
+	
+// 	//Insert button
+// 	GtkWidget *insert_btn = gtk_button_new_with_label("Insert");
+// 	g_signal_connect(insert_btn, "clicked", G_CALLBACK(on_import_clicked), ctx);
+	
+// 	gtk_box_append(GTK_BOX(sidebar), insert_btn);
+//     gtk_box_append(GTK_BOX(sidebar), save_btn);
+//     gtk_box_append(GTK_BOX(box), sidebar);
+//     gtk_box_append(GTK_BOX(box), ctx->area);
+//     gtk_box_append(GTK_BOX(box), right_panel);
+	
+//     gtk_window_set_title(GTK_WINDOW(ctx->main_window), "Window calculator");
+//     gtk_window_set_child(GTK_WINDOW(ctx->main_window), box);
+
+// 	gtk_window_maximize(GTK_WINDOW(ctx->main_window));
+//     gtk_window_present(GTK_WINDOW(ctx->main_window));
+
+// }
 
 void	on_app_shutdown(GtkApplication *app, gpointer user_data)
 {

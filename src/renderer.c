@@ -100,17 +100,17 @@ void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, doub
 
 static void		calculated_scaled_vars(int width, t_app_context *ctx, t_scaled_vars *scaled_var)
 {
-    if (!ctx || !scaled_var)
+    if(!ctx || !scaled_var)
         return;
 
-	float	scale = (float)width / REFERENCE_MAX_MM;
+    float	scale = (float)width / REFERENCE_MAX_MM;
 	float	offset_top				= ctx->cfg.frame.width - ctx->cfg.frame.rebate_width - ctx->cfg.sash.overlap; // 41mm
 	
 	scaled_var->frame_w				= ctx->res.frame_width * scale;
     scaled_var->frame_h				= ctx->res.frame_height * scale;
     scaled_var->sash_w				= ctx->res.sash_width * scale;
     scaled_var->sash_h				= ctx->res.sash_height * scale;
-	scaled_var->offset_top			=	offset_top * scale;
+	scaled_var->offset_top			=   offset_top * scale;
 	scaled_var->inner_frame_offset	= (offset_top + ctx->cfg.sash.overlap) * scale; // 47mm
 	scaled_var->inner_sill_offset	= (ctx->cfg.frame.width - ctx->cfg.frame.sill_rebate - ctx->cfg.sash.overlap) * scale;
 	scaled_var->sash_visible_w		= (ctx->cfg.sash.width - ctx->cfg.sash.bead_width) * scale;

@@ -87,14 +87,27 @@ typedef struct s_result
 
 typedef struct s_cut_list_widgets
 {
-    GtkWidget *lbl_frame_v_raw;
-    GtkWidget *lbl_frame_v_net;
-    GtkWidget *lbl_frame_h_raw;
-    GtkWidget *lbl_frame_h_net;
-    GtkWidget *lbl_sash_v_raw;
-    GtkWidget *lbl_sash_v_net;
-    GtkWidget *lbl_sash_h_raw;
-    GtkWidget *lbl_sash_h_net;
+    // Frame Labels
+    GtkWidget *lbl_frame_head_raw;
+    GtkWidget *lbl_frame_head_net;
+    GtkWidget *lbl_frame_sill_raw;
+    GtkWidget *lbl_frame_sill_net;
+    GtkWidget *lbl_frame_left_raw;
+    GtkWidget *lbl_frame_left_net;
+    GtkWidget *lbl_frame_right_raw;
+    GtkWidget *lbl_frame_right_net;
+
+    // Sash Labels
+    GtkWidget *lbl_sash_top_raw;
+    GtkWidget *lbl_sash_top_net;
+    GtkWidget *lbl_sash_bottom_raw;
+    GtkWidget *lbl_sash_bottom_net;
+    GtkWidget *lbl_sash_left_raw;
+    GtkWidget *lbl_sash_left_net;
+    GtkWidget *lbl_sash_right_raw;
+    GtkWidget *lbl_sash_right_net;
+
+    // Glass Label
     GtkWidget *lbl_glass_net;
 } t_cut_list_widgets;
 
