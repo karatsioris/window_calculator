@@ -111,12 +111,21 @@ typedef struct s_cut_list_widgets
     GtkWidget *lbl_glass_net;
 } t_cut_list_widgets;
 
+typedef struct s_layout_offsets
+{
+    float	offset_top;
+    float	inner_frame_offset;
+    float	inner_sill_offset;
+} t_layout_offsets;
+
+
 typedef struct s_app_context
 {
-    t_window         win;
-    t_profile_config cfg;
-    t_result         res;
-	t_cut_list_widgets cut_list_ui;
+    t_window         	win;
+    t_profile_config 	cfg;
+    t_result         	res;
+	t_cut_list_widgets	cut_list_ui;
+	t_layout_offsets	offsets;
 
     GtkWidget       *area;
     GtkWidget       *main_window;

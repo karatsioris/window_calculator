@@ -218,3 +218,15 @@ gboolean save_window_to_win(const char *filename, const t_app_context *ctx)
     g_key_file_free(keyfile);
     return success;
 }
+
+void	on_app_shutdown(GtkApplication *app, gpointer user_data)
+{
+	(void)app;
+	t_app_context *ctx = (t_app_context *)user_data;
+
+	if(ctx)
+	{
+		save_config_to_ini("config.ini", &ctx->cfg);
+        g_print("Config saved successfully on exit.\n");
+	}
+}

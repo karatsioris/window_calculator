@@ -3,6 +3,10 @@
 
 #include <gtk/gtk.h>
 #include "types.h"
+#include "renderer.h"
+#include "calculator.h"
+#include "config.h"
+#include "gui_cut_list.h"
 
 typedef struct s_spin_data
 {
@@ -17,17 +21,20 @@ typedef struct s_spin_data
 
 GtkWidget *create_main_layout(t_app_context *ctx);
 
+// --- composition_gui.c ---
 void	activate(GtkApplication *app, gpointer data);
 
-void	on_app_shutdown(GtkApplication *app, gpointer user_data);
+// --- gui_sidebar.c ---
+GtkWidget	*build_sidebar(t_app_context *ctx);
+void 		set_margin(GtkWidget *place, int num);
+void		on_mechanism_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpointer user_data);
 
-// GtkWidget *build_sidebar(t_window *win, t_result *res,t_profile_config *cfg, GtkWidget *area);
-GtkWidget *build_sidebar(t_app_context *ctx);
 
-
+// --- save_import.c ---
 void	on_save_project_clicked(GtkButton *btn, gpointer user_data);
 void	on_import_clicked(GtkButton *btn, gpointer user_data);
 
+// --- gui_sidebar.c ---
 void	set_margin(GtkWidget *place, int num);
 void	update_cut_list_ui(t_app_context *ctx);
 

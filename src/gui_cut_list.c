@@ -53,7 +53,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(panel, 510, -1);
+    gtk_widget_set_size_request(panel, 460, -1);
     set_margin(panel, 40);
 
     // Title
@@ -183,9 +183,13 @@ void update_cut_list_ui(t_app_context *ctx)
     char net_str[64];
 
     // 1. Recalculate dimensions in memory
-    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg);
+    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
 
- 
+	if(ctx->win.mechanism == MECH_FIXED)
+	{
+		
+	}
+
     // Head (Horizontal cut)
     snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
              ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_horizontal_cut + LENGTH_ALLOWANCE_MM);
@@ -226,9 +230,9 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         // Horizontal Sash Members (Top & Bottom Rails)
         snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
-                 ctx->cfg.sash.depth, RAW_SASH_WIDTH_MM, ctx->res.sash_width + LENGTH_ALLOWANCE_MM);
+                 ctx->cfg.sash.depth, RAW_SASH_WIDTH_MM, ctx->res.sash_horizontal_cut + LENGTH_ALLOWANCE_MM);
         snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
-                 ctx->cfg.sash.depth, ctx->cfg.sash.width, ctx->res.sash_width);
+                 ctx->cfg.sash.depth, ctx->cfg.sash.width, ctx->res.sash_horizontal_cut);
 
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_raw))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_raw), raw_str);
@@ -260,14 +264,14 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         // Fixed window has no sash elements
         const char *dash = "-";
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_raw))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_raw), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_net))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_net), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw)) gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net)) gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_left_raw))   gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_raw), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_left_net))   gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_net), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_raw))  gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_raw), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_net))  gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_net), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw)) gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_net))   gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_net), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_raw)) gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_raw), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_net))   gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_net), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_raw))  gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_raw), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_net))  gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_net), dash);
     }
 
   
