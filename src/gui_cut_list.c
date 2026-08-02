@@ -50,121 +50,122 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     GtkWidget *scroll;
     GtkWidget *grid;
     GtkWidget *sep;
+    GtkWidget *vsep;
+    GtkWidget *lbl_log_group;
+    GtkWidget *lbl_fin_group;
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(panel, 460, -1);
+    gtk_widget_set_size_request(panel, 560, -1);
     set_margin(panel, 40);
 
-    // Title
     title = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title), "<b>Cutting List</b>");
     gtk_widget_set_halign(title, GTK_ALIGN_START);
     gtk_widget_set_margin_bottom(title, 20);
     gtk_box_append(GTK_BOX(panel), title);
 
-    // Grid Container
     grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
     gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
 
-    // --- HEADERS (4 Columns) ---
-    add_grid_cell(grid, "Item", 0, row, TRUE);
-    add_grid_cell(grid, "Material", 1, row, TRUE);
-    add_grid_cell(grid, "Qty", 2, row, TRUE);
-    add_grid_cell(grid, "Over dim(mm)",  3, row, TRUE);
-    add_grid_cell(grid, "Finish dim(mm)", 4, row, TRUE);
+    lbl_log_group = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(lbl_log_group), "<b>Log</b>");
+    gtk_grid_attach(GTK_GRID(grid), lbl_log_group, 4, row, 1, 1);
+
+    lbl_fin_group = gtk_label_new(NULL);
+    gtk_label_set_markup(GTK_LABEL(lbl_fin_group), "<b>Finished</b>");
+    gtk_grid_attach(GTK_GRID(grid), lbl_fin_group, 5, row, 1, 1);
     row++;
 
-    // Separator
+    add_grid_cell(grid, "Qty", 0, row, TRUE);
+    add_grid_cell(grid, "Item", 1, row, TRUE);
+    add_grid_cell(grid, "Material", 2, row, TRUE);
+    add_grid_cell(grid, "Over dimention(mm)", 4, row, TRUE);
+    add_grid_cell(grid, "Finish dimention(mm)", 5, row, TRUE);
+    row++;
+
     sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_attach(GTK_GRID(grid), sep, 0, row++, 5, 1);
+    gtk_grid_attach(GTK_GRID(grid), sep, 0, row++, 6, 1);
 
-    // --- 1. FRAME (Unpaired) ---
-    // Frame Head (Horizontal)
-    add_grid_cell(grid, "Frame Head", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_head_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_head_net = add_grid_cell(grid, "-", 4, row, FALSE);
+	// FRAME
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Frame Head", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_head_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_head_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Frame Sill (Horizontal)
-    add_grid_cell(grid, "Frame Sill", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_sill_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_sill_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Frame Sill", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_sill_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_sill_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Frame Left Jamb (Vertical)
-    add_grid_cell(grid, "Frame Left Jamb", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_left_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_left_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Frame Left Jamb", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_left_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_left_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Frame Right Jamb (Vertical)
-    add_grid_cell(grid, "Frame Right Jamb", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_right_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_frame_right_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Frame Right Jamb", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_right_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_frame_right_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Separator before Sash
     sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_attach(GTK_GRID(grid), sep, 0, row++, 5, 1);
+    gtk_grid_attach(GTK_GRID(grid), sep, 0, row++, 6, 1);
 
-    // --- 2. SASH (Unpaired) ---
-    // Sash Top Rail
-    add_grid_cell(grid, "Sash Top Rail", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_top_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_top_net = add_grid_cell(grid, "-", 4, row, FALSE);
+	// SASH
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Sash Top Rail", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_top_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_top_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Sash Bottom Rail
-    add_grid_cell(grid, "Sash Bottom Rail", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_bottom_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_bottom_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Sash Bottom Rail", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_bottom_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_bottom_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Sash Left Stile
-    add_grid_cell(grid, "Sash Left Stile", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_left_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_left_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Sash Left Stile", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_left_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_left_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Sash Right Stile
-    add_grid_cell(grid, "Sash Right Stile", 0, row, FALSE);
-    add_grid_cell(grid, "Oak", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_right_raw = add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_sash_right_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Sash Right Stile", 1, row, FALSE);
+    add_grid_cell(grid, "Oak", 2, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_right_raw = add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_sash_right_net = add_grid_cell(grid, "-", 5, row, FALSE);
     row++;
 
-    // Separator before Glass
     sep = gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
-    gtk_grid_attach(GTK_GRID(grid), sep, 0, row++, 5, 1);
+    gtk_grid_attach(GTK_GRID(grid), sep, 0, row++, 6, 1);
 
-    // --- 3. GLASS ---
-    add_grid_cell(grid, "Glass Pane", 0, row, FALSE);
-    add_grid_cell(grid, "Glass", 1, row, FALSE);
-    add_grid_cell(grid, "1x", 2, row, FALSE);
-    add_grid_cell(grid, "-", 3, row, FALSE);
-    ctx->cut_list_ui.lbl_glass_net = add_grid_cell(grid, "-", 4, row, FALSE);
+    // GLASS
+    add_grid_cell(grid, "1x", 0, row, FALSE);
+    add_grid_cell(grid, "Glass Pane", 1, row, FALSE);
+    add_grid_cell(grid, "Glass", 2, row, FALSE);
+    add_grid_cell(grid, "-", 4, row, FALSE);
+    ctx->cut_list_ui.lbl_glass_net = add_grid_cell(grid, "-", 5, row, FALSE);
+    row++;
 
-    // Initial update
+    vsep = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
+    gtk_widget_set_size_request(vsep, 1, -1);
+    gtk_grid_attach(GTK_GRID(grid), vsep, 3, 0, 1, row);
+
     update_cut_list_ui(ctx);
 
-    // Scrolled Window
     scroll = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scroll), grid);
     gtk_widget_set_vexpand(scroll, TRUE);
@@ -173,6 +174,18 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     return panel;
 }
 
+static void set_label_colored(GtkWidget *lbl, const char *text, const char *color_hex)
+{
+    char *markup;
+
+    if (!GTK_IS_LABEL(lbl))
+        return;
+    markup = g_markup_printf_escaped(
+        "<span foreground=\"%s\" weight=\"bold\">%s</span>",
+        color_hex, text);
+    gtk_label_set_markup(GTK_LABEL(lbl), markup);
+    g_free(markup);
+}
 
 void update_cut_list_ui(t_app_context *ctx)
 {
@@ -181,33 +194,29 @@ void update_cut_list_ui(t_app_context *ctx)
 
     char raw_str[64];
     char net_str[64];
-
-    // 1. Recalculate dimensions in memory
+	
     calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
+	
 
-	if(ctx->win.mechanism == MECH_FIXED)
-	{
-		
-	}
-
-    // Head (Horizontal cut)
+    // Horizontal FRAME
     snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
-             ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_horizontal_cut + LENGTH_ALLOWANCE_MM);
+	ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_horizontal_cut + LENGTH_ALLOWANCE_MM);
     snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
-             ctx->cfg.frame.depth, ctx->cfg.frame.width, ctx->res.frame_horizontal_cut);
-
+	ctx->cfg.frame.depth, ctx->cfg.frame.width, ctx->res.frame_horizontal_cut);
+	
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))
-        gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), raw_str);
+	gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))
-        gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), net_str);
+	gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), net_str);
+	set_label_colored(ctx->cut_list_ui.lbl_frame_head_net, net_str, "#5C3D2E");
 
-    // Sill (Horizontal cut - allows separate dimensions in asymmetric setups later)
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_net))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_net), net_str);
+	set_label_colored(ctx->cut_list_ui.lbl_frame_sill_net, net_str, "#5C3D2E");
 
-    // Left Jamb (Vertical cut)
+    // VERTICAL FRAME
     snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
              ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_vertical_cut + LENGTH_ALLOWANCE_MM);
     snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
@@ -217,18 +226,19 @@ void update_cut_list_ui(t_app_context *ctx)
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_net))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_net), net_str);
+	set_label_colored(ctx->cut_list_ui.lbl_frame_left_net, net_str, "#5C3D2E");
 
-    // Right Jamb (Vertical cut)
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_raw))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_net))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_net), net_str);
+	set_label_colored(ctx->cut_list_ui.lbl_frame_right_net, net_str, "#5C3D2E");
 
  
 
     if (ctx->win.mechanism != MECH_FIXED)
     {
-        // Horizontal Sash Members (Top & Bottom Rails)
+        // Horizontal Sash
         snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
                  ctx->cfg.sash.depth, RAW_SASH_WIDTH_MM, ctx->res.sash_horizontal_cut + LENGTH_ALLOWANCE_MM);
         snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
@@ -238,13 +248,15 @@ void update_cut_list_ui(t_app_context *ctx)
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_net), net_str);
+		set_label_colored(ctx->cut_list_ui.lbl_sash_top_net, net_str, "#173925");
 
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net), net_str);
+		set_label_colored(ctx->cut_list_ui.lbl_sash_bottom_net, net_str, "#173925");
 
-        // Vertical Sash Members (Left & Right Stiles)
+        // Vertical Sash
         snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
                  ctx->cfg.sash.depth, RAW_SASH_WIDTH_MM, ctx->res.sash_height + LENGTH_ALLOWANCE_MM);
         snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
@@ -254,15 +266,16 @@ void update_cut_list_ui(t_app_context *ctx)
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_left_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_net), net_str);
+			set_label_colored(ctx->cut_list_ui.lbl_sash_left_net, net_str, "#173925");
 
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_raw))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_net), net_str);
+			set_label_colored(ctx->cut_list_ui.lbl_sash_right_net, net_str, "#173925");
     }
     else
     {
-        // Fixed window has no sash elements
         const char *dash = "-";
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), dash);
@@ -279,5 +292,6 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         snprintf(net_str, sizeof(net_str), "%.0f x %.0f mm", ctx->res.glass_width, ctx->res.glass_height);
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_glass_net), net_str);
+		set_label_colored(ctx->cut_list_ui.lbl_glass_net, net_str, "#2e405c");
     }
 }

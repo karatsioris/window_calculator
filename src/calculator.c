@@ -12,11 +12,12 @@ void calculate_dimensions(const t_window *win, t_result *res, const t_profile_co
 	if (!win || !res || !cfg)
         return;
 
+	res->sash_width = win->width - 2 * cfg->frame.width  + (2 * cfg->frame.rebate_width) + (2 * cfg->sash.overlap);
+	res->sash_height = win->height - 2 * cfg->frame.width  + (cfg->frame.rebate_width + cfg->frame.sill_rebate) + (2 * cfg->sash.overlap);
+
 	res->sash_horizontal_cut = (res->sash_width - ((2 * cfg->sash.width) - (2 * cfg->sash.bead_width))) + 8;
     res->sash_vertical_cut = res->sash_height;
 
-	res->sash_width = win->width - 2 * cfg->frame.width  + (2 * cfg->frame.rebate_width) + (2 * cfg->sash.overlap);
-	res->sash_height = win->height - 2 * cfg->frame.width  + (cfg->frame.rebate_width + cfg->frame.sill_rebate) + (2 * cfg->sash.overlap);
 
 	res->frame_vertical_cut = win->height;
 	res->frame_horizontal_cut = win->width - (2 * cfg->frame.width) + ( 2 * cfg->frame.rebate_width);

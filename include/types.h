@@ -1,7 +1,6 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-
 #include <gtk/gtk.h>	
 
 typedef enum e_window_type

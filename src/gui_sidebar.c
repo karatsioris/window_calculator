@@ -93,16 +93,13 @@ GtkWidget *build_sidebar(t_app_context *ctx)
     GtkWidget *sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
     set_margin(sidebar, 10);
 
-    // --- SECTION 1: ΔΙΑΣΤΑΣΕΙΣ (SPIN BUTTONS) ---
     GtkWidget *dim_label = gtk_label_new("<b>Frame dimension</b>");
     gtk_label_set_use_markup(GTK_LABEL(dim_label), TRUE);
     gtk_widget_set_halign(dim_label, GTK_ALIGN_START);
     gtk_box_append(GTK_BOX(sidebar), dim_label);
 
-  // Δημιουργία Spin Button Πλάτους & Αποθήκευση στο ctx->spin_width
     GtkWidget *pair_width = build_labeled_spinbutton("Width:", ctx->win.width, &ctx->spin_width);
     
-    // Δημιουργία Spin Button Ύψους & Αποθήκευση στο ctx->spin_height
     GtkWidget *pair_height = build_labeled_spinbutton("Height:", ctx->win.height, &ctx->spin_height);
 
     // Σύνδεση των signals ΜΕΤΑ τη δημιουργία των SpinButtons
@@ -115,13 +112,11 @@ GtkWidget *build_sidebar(t_app_context *ctx)
     // Separator
     gtk_box_append(GTK_BOX(sidebar), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL));
 
-    // --- SECTION 2: ΦΟΡΑ & ΜΗΧΑΝΙΣΜΟΣ (DROPDOWNS) ---
     GtkWidget *mech_title = gtk_label_new("<b>Opening and Mechanism</b>");
     gtk_label_set_use_markup(GTK_LABEL(mech_title), TRUE);
     gtk_widget_set_halign(mech_title, GTK_ALIGN_START);
     gtk_box_append(GTK_BOX(sidebar), mech_title);
 
-    // 1. Dropdown Φοράς
     const char *dirs[] = {"Left", "Right", NULL};
     GtkWidget *dir_label = gtk_label_new("Opening Direction:");
     gtk_widget_set_halign(dir_label, GTK_ALIGN_START);
@@ -136,7 +131,6 @@ GtkWidget *build_sidebar(t_app_context *ctx)
     gtk_box_append(GTK_BOX(sidebar), dir_label);
     gtk_box_append(GTK_BOX(sidebar), dir_dropdown);
 
-    // 2. Dropdown Μηχανισμού
     const char *mechs[] = {"Turn", "Tilt & Turn", "Fixed", NULL};
     GtkWidget *mech_label = gtk_label_new("Type of Mechanism:");
     gtk_widget_set_halign(mech_label, GTK_ALIGN_START);

@@ -4,7 +4,8 @@
 #include "types.h"
 #include "gui.h"
 
-#define REFERENCE_MAX_MM 5000.0
+#define MAX_SCALE_PX_PER_MM 1.2f 
+
 
 // Layout & Spacing Constants for Dimensions (in pixels)
 #define DIM_OFFSET_OUTER    55.0f  // Distance of the outer dimension line (Frame) from the window

@@ -1,20 +1,30 @@
 #include "renderer.h"
 
+static float compute_fit_scale(int canvas_width, int canvas_height, float object_w_mm, float object_h_mm, float padding_px)
+{
+    float avail_w = (float)canvas_width  - (2.0f * padding_px);
+    float avail_h = (float)canvas_height - (2.0f * padding_px);
 
-static void		calculated_scaled_vars(int width, t_app_context *ctx, t_scaled_vars *scaled_var, t_layout_offsets *out)
+    if (object_w_mm <= 0.0f || object_h_mm <= 0.0f || avail_w <= 0.0f || avail_h <= 0.0f)
+        return 0.1f;
+
+    float scale_x = avail_w / object_w_mm;
+    float scale_y = avail_h / object_h_mm;
+	float fit_scale = (scale_x < scale_y) ? scale_x : scale_y;
+
+    return (fit_scale < MAX_SCALE_PX_PER_MM) ? fit_scale : MAX_SCALE_PX_PER_MM;
+}
+
+
+static void		calculated_scaled_vars(int width,int height, t_app_context *ctx, t_scaled_vars *scaled_var, t_layout_offsets *out)
 {
     if(!ctx || !scaled_var)
         return;
 
-    float	scale = (float)width / REFERENCE_MAX_MM;
+	float scale = compute_fit_scale(width, height, ctx->res.frame_width, ctx->res.frame_height, 200.0f);
 	
 	scaled_var->frame_w				= ctx->res.frame_width * scale;
     scaled_var->frame_h				= ctx->res.frame_height * scale;
-	// if (ctx->win.mechanism == MECH_FIXED)
-	// {
-	// 	scaled_var->sash_w = scaled_var->frame_w;
-	// 	scaled_var->sash_h = scaled_var->frame_h;
-	// }
     scaled_var->sash_w				= ctx->res.sash_width * scale;
     scaled_var->sash_h				= ctx->res.sash_height * scale;
 	scaled_var->offset_top			= out->offset_top * scale;
@@ -161,7 +171,7 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpo
         return;
     t_scaled_vars  sv;
 
-    calculated_scaled_vars(width, ctx, &sv, &ctx->offsets);
+    calculated_scaled_vars(width, height, ctx, &sv, &ctx->offsets);
 
     float frame_x = (width  / 2.0f) - (sv.frame_w / 2.0f);
     float frame_y = (height / 2.0f) - (sv.frame_h / 2.0f);
