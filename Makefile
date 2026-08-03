@@ -17,6 +17,7 @@ SRCS        =	src/calculator.c \
 					src/gui_settings.c \
 					src/config.c \
 					src/gui_cut_list.c \
+					src/export.c
 
 OBJS        = $(SRCS:.c=.o)
 

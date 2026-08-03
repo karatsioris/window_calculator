@@ -32,8 +32,7 @@ static void		calculated_scaled_vars(int width,int height, t_app_context *ctx, t_
 	scaled_var->inner_sill_offset	= out->inner_sill_offset * scale;
 	scaled_var->sash_visible_w		= (ctx->cfg.sash.width - ctx->cfg.sash.bead_width) * scale;
 	scaled_var->sash_w_profile		= ctx->cfg.sash.width * scale;
-
-		
+	
 }
 
 

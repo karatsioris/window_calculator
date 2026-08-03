@@ -103,3 +103,4 @@ void on_import_clicked(GtkButton *btn, gpointer user_data)
     gtk_file_dialog_open(dialog, GTK_WINDOW(ctx->main_window), NULL, on_import_response, ctx);
     g_object_unref(dialog);
 }
+

@@ -53,17 +53,35 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     GtkWidget *vsep;
     GtkWidget *lbl_log_group;
     GtkWidget *lbl_fin_group;
+	GtkWidget *export_btn;
+	GtkWidget *title_row;
+	GtkWidget *export_box;
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_size_request(panel, 560, -1);
     set_margin(panel, 40);
+	
+	// --- Title row: "Cutting List" label + Export button, spaced apart ---
+ 	title_row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  	gtk_widget_set_margin_bottom(title_row, 20);
 
     title = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(title), "<b>Cutting List</b>");
     gtk_widget_set_halign(title, GTK_ALIGN_START);
     gtk_widget_set_margin_bottom(title, 20);
     gtk_box_append(GTK_BOX(panel), title);
+
+	export_btn = gtk_button_new();
+    export_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 16);
+    gtk_box_append(GTK_BOX(export_box), gtk_image_new_from_file("export.svg"));
+    gtk_box_append(GTK_BOX(export_box), gtk_label_new("Export CSV"));
+    gtk_button_set_child(GTK_BUTTON(export_btn), export_box);
+    gtk_widget_set_tooltip_text(export_btn, "Export cutting list to CSV");
+    g_signal_connect(export_btn, "clicked", G_CALLBACK(on_export_csv_clicked), ctx);
+    gtk_box_append(GTK_BOX(title_row), export_btn);
+
+	gtk_box_append(GTK_BOX(panel), title_row); 
 
     grid = gtk_grid_new();
     gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
@@ -279,7 +297,7 @@ void update_cut_list_ui(t_app_context *ctx)
         const char *dash = "-";
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), dash);
-        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw)) gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), dash);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw)) 	gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_net))   gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_net), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_raw)) gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_raw), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_net))   gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_net), dash);

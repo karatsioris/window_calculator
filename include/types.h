@@ -117,6 +117,27 @@ typedef struct s_layout_offsets
     float	inner_sill_offset;
 } t_layout_offsets;
 
+typedef struct s_setting_spin_btns
+{
+	GtkSpinButton	*frame_depth;
+	GtkSpinButton	*frame_width;
+	GtkSpinButton	*frame_rebate_width;
+	GtkSpinButton	*frame_rebate_depth;
+	GtkSpinButton	*frame_sill_rebate;
+
+	GtkSpinButton	*sash_depth;
+    GtkSpinButton	*sash_width;
+	GtkSpinButton	*sash_rebate_width;
+	GtkSpinButton	*sash_rebate_depth;
+    GtkSpinButton	*sash_overlap;
+
+	GtkSpinButton	*sash_glass_rebate_w;
+    GtkSpinButton	*sash_bead_width;
+	
+	GtkSpinButton	*gaps_air_gap;
+    GtkSpinButton	*gaps_glass_clearance;
+
+} t_setting_spin_btns;
 
 typedef struct s_app_context
 {
@@ -125,6 +146,7 @@ typedef struct s_app_context
     t_result         	res;
 	t_cut_list_widgets	cut_list_ui;
 	t_layout_offsets	offsets;
+	t_setting_spin_btns	setting_spins;
 
     GtkWidget       *area;
     GtkWidget       *main_window;
@@ -137,5 +159,6 @@ typedef struct s_app_context
     GtkDropDown     *drop_direction;
     GtkDropDown     *drop_mechanism;
 } t_app_context;
+
 
 #endif

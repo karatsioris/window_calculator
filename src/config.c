@@ -38,21 +38,7 @@ void init_app_context(t_app_context *ctx)
 
 
 
-
-// void init_window(t_window *win,const t_profile_config *cfg)
-// {
-// 	if (!win || !cfg)
-//         return;
-
-// 	win->type = WINDOW_SINGLE_SASH;
-//     win->width = 500.0f;
-//     win->height = 500.0f;
-
-// 	win->opening_dir = OPEN_LEFT;
-//     win->mechanism   = MECH_TURN_ONLY;
-// }
-
-
+// TODO : detect when the user change the config.ini file and not return the struct with zero
 gboolean load_config_from_ini(const char *filename, t_profile_config *cfg)
 {
 	GKeyFile	*keyfile = g_key_file_new();

@@ -38,4 +38,10 @@ void	on_import_clicked(GtkButton *btn, gpointer user_data);
 void	set_margin(GtkWidget *place, int num);
 void	update_cut_list_ui(t_app_context *ctx);
 
+// --- export.c ---
+void on_export_csv_clicked(GtkButton *btn, t_app_context *ctx);
+
+// --- gui_settings.c ---
+void open_profile_settings_dialog(GtkButton *btn, gpointer user_data);
+
 #endif

@@ -16,6 +16,7 @@ void activate(GtkApplication *app, gpointer user_data)
     GtkWidget *import_btn = gtk_button_new();
     GtkWidget *import_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_box_append(GTK_BOX(import_box), gtk_image_new_from_icon_name("document-open-symbolic"));
+	gtk_box_append(GTK_BOX(import_box), gtk_label_new("Import"));
     gtk_button_set_child(GTK_BUTTON(import_btn), import_box);
     gtk_widget_set_margin_start(import_btn, 40);
     g_signal_connect(import_btn, "clicked", G_CALLBACK(on_import_clicked), ctx);
@@ -25,10 +26,20 @@ void activate(GtkApplication *app, gpointer user_data)
     GtkWidget *save_btn = gtk_button_new();
     GtkWidget *save_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
     gtk_box_append(GTK_BOX(save_box), gtk_image_new_from_icon_name("document-save-symbolic"));
+	gtk_box_append(GTK_BOX(save_box), gtk_label_new("Save"));
     gtk_button_set_child(GTK_BUTTON(save_btn), save_box);
     g_signal_connect(save_btn, "clicked", G_CALLBACK(on_save_project_clicked), ctx);
     gtk_widget_add_css_class(save_btn, "suggested-action");
     gtk_header_bar_pack_end(GTK_HEADER_BAR(header_bar), save_btn);
+
+	// Setting Button
+	GtkWidget *settings_btn = gtk_button_new();
+	GtkWidget *settings_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+	gtk_box_append(GTK_BOX(settings_box), gtk_image_new_from_file("settings.svg"));
+	gtk_box_append(GTK_BOX(settings_box), gtk_label_new("Settings"));
+	gtk_button_set_child(GTK_BUTTON(settings_btn), settings_box);
+	g_signal_connect(settings_btn, "clicked", G_CALLBACK(open_profile_settings_dialog), ctx);
+	gtk_header_bar_pack_start(GTK_HEADER_BAR(header_bar), settings_btn);
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *left_panel = build_sidebar(ctx);
