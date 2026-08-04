@@ -25,8 +25,8 @@ void calculate_dimensions(const t_window *win, t_result *res, const t_profile_co
 	res->frame_width = win->width;
 	res->frame_height = win->height;
 
-	res->glass_width = res->sash_width - 2 * (cfg->sash.width - cfg->sash.glass_rebate_w) + 2 * cfg->gaps.glass_clearance;
-	res->glass_height = res->sash_height - 2 * (cfg->sash.width - cfg->sash.glass_rebate_w) + 2 * cfg->gaps.glass_clearance;
+	res->glass_width = res->sash_width - 2 * (cfg->sash.width - cfg->sash.glass_rebate_w) - 2 * cfg->gaps.glass_clearance;
+	res->glass_height = res->sash_height - 2 * (cfg->sash.width - cfg->sash.glass_rebate_w) - 2 * cfg->gaps.glass_clearance;
 	
 	calculate_layout_offsets(cfg, offsets);
 }

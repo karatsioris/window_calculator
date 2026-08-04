@@ -40,14 +40,14 @@ typedef struct s_sash_profile
 	float	rebate_depth;	// 12mm
     float	overlap;		// 6mm
 
-    float	glass_rebate_w; // 4mm
+    float	glass_rebate_w; // 15mm
     float	bead_width;		// 15mm
 } t_sash_profile;
 
 typedef struct s_hardware_gaps
 {
     float	air_gap;		// 4mm
-    float	glass_clearance;
+    float	glass_clearance; // 2mm
 } t_hardware_gaps;
 
 typedef struct s_window

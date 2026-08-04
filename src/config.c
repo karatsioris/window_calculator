@@ -15,11 +15,11 @@ void load_default_config(t_profile_config *cfg)
     cfg->sash.rebate_width = 18.0f;
     cfg->sash.rebate_depth = 12.0f;
     cfg->sash.overlap = 6.0f;
-    cfg->sash.bead_width = 15.0f;
-    cfg->sash.glass_rebate_w = 4.0f;
+    cfg->sash.bead_width = 15.0f; // glazing bead
+    cfg->sash.glass_rebate_w = 15.0f; 
 
     cfg->gaps.air_gap = 4.0f;
-    cfg->gaps.glass_clearance = 2.0f;
+    cfg->gaps.glass_clearance = 2.0f; // plastic spacer
 }
 
 // because i use the t_app_context i can use this function for init

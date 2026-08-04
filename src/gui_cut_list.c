@@ -3,9 +3,10 @@
 #include "gui.h"
 
 
-// Περιθώριο μήκους για αρχικό κόψιμο ξύλου (mm)
+//	Log over dimentions lenght before processing
 #define LENGTH_ALLOWANCE_MM 50.0f
-// Αρχικό πλάτος πρίσματος πριν το πλάνισμα/διαμόρφωση (mm)
+
+// Log width before processing
 #define RAW_FRAME_WIDTH_MM  80.0f
 #define RAW_SASH_WIDTH_MM   80.0f
 
