@@ -59,7 +59,7 @@ static void on_save_settings_clicked(GtkButton *btn, gpointer user_data)
     }
 }
 
-void open_profile_settings_dialog(GtkButton *btn, gpointer user_data)
+void on_settings_clicked(GtkButton *btn, gpointer user_data)
 {
     (void)btn;
     t_app_context *ctx = (t_app_context *)user_data;

@@ -91,7 +91,8 @@ GtkWidget *build_sidebar(t_app_context *ctx)
         return NULL;
 
     GtkWidget *sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
-    set_margin(sidebar, 10);
+    gtk_widget_set_size_request(sidebar, 250, -1);
+    set_margin(sidebar, 40);
 
     GtkWidget *dim_label = gtk_label_new("<b>Frame dimension</b>");
     gtk_label_set_use_markup(GTK_LABEL(dim_label), TRUE);

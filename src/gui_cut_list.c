@@ -60,7 +60,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(panel, 560, -1);
+    gtk_widget_set_size_request(panel, 600, -1);
     set_margin(panel, 40);
 	
 	// --- Title row: "Cutting List" label + Export button, spaced apart ---
@@ -75,7 +75,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
 
 	export_btn = gtk_button_new();
     export_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 16);
-    gtk_box_append(GTK_BOX(export_box), gtk_image_new_from_file("export.svg"));
+    gtk_box_append(GTK_BOX(export_box), gtk_image_new_from_file("icons/export.svg"));
     gtk_box_append(GTK_BOX(export_box), gtk_label_new("Export CSV"));
     gtk_button_set_child(GTK_BUTTON(export_btn), export_box);
     gtk_widget_set_tooltip_text(export_btn, "Export cutting list to CSV");
@@ -224,15 +224,17 @@ void update_cut_list_ui(t_app_context *ctx)
 	ctx->cfg.frame.depth, ctx->cfg.frame.width, ctx->res.frame_horizontal_cut);
 	
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))
-	gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), raw_str);
+	    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))
-	gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), net_str);
+	    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), net_str);
 	set_label_colored(ctx->cut_list_ui.lbl_frame_head_net, net_str, "#5C3D2E");
 
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_net))
+    {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_net), net_str);
+    }
 	set_label_colored(ctx->cut_list_ui.lbl_frame_sill_net, net_str, "#5C3D2E");
 
     // VERTICAL FRAME
@@ -242,15 +244,21 @@ void update_cut_list_ui(t_app_context *ctx)
              ctx->cfg.frame.depth, ctx->cfg.frame.width, ctx->res.frame_vertical_cut);
 
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_raw))
+    {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_raw), raw_str);
+    }
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_left_net))
+    {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_net), net_str);
+    }
 	set_label_colored(ctx->cut_list_ui.lbl_frame_left_net, net_str, "#5C3D2E");
 
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_raw))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_net))
+    {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_net), net_str);
+    }
 	set_label_colored(ctx->cut_list_ui.lbl_frame_right_net, net_str, "#5C3D2E");
 
  

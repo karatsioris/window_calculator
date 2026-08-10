@@ -17,6 +17,6 @@ int			load_project_from_win(const char *filepath, t_app_context *ctx);
 
 void 		init_app_context(t_app_context *ctx);
 
-void		on_app_shutdown(GtkApplication *app, gpointer user_data);
+void		shutdown(GtkApplication *app, gpointer user_data);
 
 #endif

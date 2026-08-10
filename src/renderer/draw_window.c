@@ -19,7 +19,9 @@ static float compute_fit_scale(int canvas_width, int canvas_height, float object
 static void		calculated_scaled_vars(int width,int height, t_app_context *ctx, t_scaled_vars *scaled_var, t_layout_offsets *out)
 {
     if(!ctx || !scaled_var)
+    {
         return;
+    }
 
 	float scale = compute_fit_scale(width, height, ctx->res.frame_width, ctx->res.frame_height, 200.0f);
 	
