@@ -4,7 +4,7 @@ static GtkWidget	*create_and_pack_header_button(char	*label, char *btn_icon, Gtk
 {
 	
 	GtkWidget *btn = gtk_button_new();
-    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 	gtk_box_append(GTK_BOX(box), gtk_image_new_from_file(btn_icon));
 	gtk_box_append(GTK_BOX(box), gtk_label_new(label));
     gtk_button_set_child(GTK_BUTTON(btn), box);

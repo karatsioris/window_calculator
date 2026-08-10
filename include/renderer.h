@@ -26,20 +26,20 @@ typedef struct s_scaled_vars
     float	sash_w_profile;
 } t_scaled_vars;
 
-// --- render_dimension.c ---
-void draw_horizontal_dimension(cairo_t *cr, double x1, double x2, double line_y,float value_mm, double ext_start, double ext_end);
-void draw_vertical_dimension(cairo_t *cr, double y1, double y2, double line_x, float value_mm, double ext_start, double ext_end);
-void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
-void draw_all_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x, float sash_y, const t_scaled_vars *sv, const t_result *res);
-void draw_fixed_dimensions(cairo_t *cr, float frame_x, float frame_y, const t_scaled_vars *sv, const t_result *res);
+// render_dimension.c
+void    draw_horizontal_dimension(cairo_t *cr, double x1, double x2, double line_y,float value_mm, double ext_start, double ext_end);
+void    draw_vertical_dimension(cairo_t *cr, double y1, double y2, double line_x, float value_mm, double ext_start, double ext_end);
+void    draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
+void    draw_all_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x, float sash_y, const t_scaled_vars *sv, const t_result *res);
+void    draw_fixed_dimensions(cairo_t *cr, float frame_x, float frame_y, const t_scaled_vars *sv, const t_result *res);
 
-// --- render_mechanism.c ---
-void draw_mechanism(cairo_t *cr, double x, double y, double w, double h, t_opening_dir dir, t_mechanism_type mech);
+// render_mechanism.c
+void    draw_mechanism(cairo_t *cr, double x, double y, double w, double h, t_opening_dir dir, t_mechanism_type mech);
 
-// --- draw_window.c ---
-void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data);
-void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
-void draw_horizontal_dimension(cairo_t *cr, double x1, double x2, double line_y, float value_mm, double ext_start, double ext_end);
-void draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
+// draw_window.c
+void    draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpointer data);
+void    draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
+void    draw_horizontal_dimension(cairo_t *cr, double x1, double x2, double line_y, float value_mm, double ext_start, double ext_end);
+void    draw_dimension_text(cairo_t *cr, double x, double y, const char *text, double angle_rad);
 
 #endif

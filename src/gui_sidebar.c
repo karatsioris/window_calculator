@@ -10,16 +10,20 @@ void	set_margin(GtkWidget *place, int num)
 
 static GtkWidget *build_labeled_spinbutton(const char *label_text, float initial_value, GtkSpinButton **out_spin)
 {
-    GtkWidget *label = gtk_label_new(label_text);
+    GtkWidget	*label;
+    GtkWidget	*spin;
+    GtkWidget	*pair;
+
+    label = gtk_label_new(label_text);
     gtk_widget_set_halign(label, GTK_ALIGN_START);
     
-    GtkWidget *spin = gtk_spin_button_new_with_range(350, 3000, 5);
+    spin = gtk_spin_button_new_with_range(350, 3000, 5);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(spin), (double)initial_value);
 	
     if (out_spin)
         *out_spin = GTK_SPIN_BUTTON(spin);
 
-    GtkWidget *pair = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    pair = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_box_append(GTK_BOX(pair), label);
     gtk_box_append(GTK_BOX(pair), spin);
     
@@ -85,25 +89,44 @@ void on_mechanism_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpointer use
 	update_cut_list_ui(ctx);
 }
 
+static GtkWidget	*create_label(char *label, GtkWidget *sidebar)
+{
+	GtkWidget	*label;
+
+	label = gtk_label_new("<b>label</b>");
+    gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
+    gtk_widget_set_halign(label, GTK_ALIGN_START);
+    gtk_box_append(GTK_BOX(sidebar), label);
+	return(label);
+} 
+
 GtkWidget *build_sidebar(t_app_context *ctx)
 {
     if (!ctx)
         return NULL;
 
-    GtkWidget *sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
+    GtkWidget	*sidebar;
+    GtkWidget	*dim_label;
+    GtkWidget	*pair_width;
+    GtkWidget	*pair_height;
+    GtkWidget	*mech_title;
+    GtkWidget	*dir_label;
+    GtkWidget	*dir_dropdown;
+    GtkWidget	*mech_label;
+    GtkWidget	*mech_dropdown;
+
+    sidebar = gtk_box_new(GTK_ORIENTATION_VERTICAL, 15);
     gtk_widget_set_size_request(sidebar, 250, -1);
     set_margin(sidebar, 40);
 
-    GtkWidget *dim_label = gtk_label_new("<b>Frame dimension</b>");
+    dim_label = gtk_label_new("<b>Frame dimension</b>");
     gtk_label_set_use_markup(GTK_LABEL(dim_label), TRUE);
     gtk_widget_set_halign(dim_label, GTK_ALIGN_START);
     gtk_box_append(GTK_BOX(sidebar), dim_label);
 
-    GtkWidget *pair_width = build_labeled_spinbutton("Width:", ctx->win.width, &ctx->spin_width);
-    
-    GtkWidget *pair_height = build_labeled_spinbutton("Height:", ctx->win.height, &ctx->spin_height);
+    pair_width = build_labeled_spinbutton("Width:", ctx->win.width, &ctx->spin_width);
+    pair_height = build_labeled_spinbutton("Height:", ctx->win.height, &ctx->spin_height);
 
-    // Σύνδεση των signals ΜΕΤΑ τη δημιουργία των SpinButtons
     g_signal_connect(ctx->spin_width, "value-changed", G_CALLBACK(on_dimension_spin_changed), ctx);
     g_signal_connect(ctx->spin_height, "value-changed", G_CALLBACK(on_dimension_spin_changed), ctx);
 
@@ -113,16 +136,16 @@ GtkWidget *build_sidebar(t_app_context *ctx)
     // Separator
     gtk_box_append(GTK_BOX(sidebar), gtk_separator_new(GTK_ORIENTATION_HORIZONTAL));
 
-    GtkWidget *mech_title = gtk_label_new("<b>Opening and Mechanism</b>");
+    mech_title = gtk_label_new("<b>Opening and Mechanism</b>");
     gtk_label_set_use_markup(GTK_LABEL(mech_title), TRUE);
     gtk_widget_set_halign(mech_title, GTK_ALIGN_START);
     gtk_box_append(GTK_BOX(sidebar), mech_title);
 
     const char *dirs[] = {"Left", "Right", NULL};
-    GtkWidget *dir_label = gtk_label_new("Opening Direction:");
+    dir_label = gtk_label_new("Opening Direction:");
     gtk_widget_set_halign(dir_label, GTK_ALIGN_START);
 
-    GtkWidget *dir_dropdown = gtk_drop_down_new_from_strings(dirs);
+    dir_dropdown = gtk_drop_down_new_from_strings(dirs);
     gtk_drop_down_set_selected(GTK_DROP_DOWN(dir_dropdown), 
                                 (ctx->win.opening_dir == OPEN_LEFT) ? 0 : 1);
 
@@ -133,10 +156,10 @@ GtkWidget *build_sidebar(t_app_context *ctx)
     gtk_box_append(GTK_BOX(sidebar), dir_dropdown);
 
     const char *mechs[] = {"Turn", "Tilt & Turn", "Fixed", NULL};
-    GtkWidget *mech_label = gtk_label_new("Type of Mechanism:");
+    mech_label = gtk_label_new("Type of Mechanism:");
     gtk_widget_set_halign(mech_label, GTK_ALIGN_START);
 
-    GtkWidget *mech_dropdown = gtk_drop_down_new_from_strings(mechs);
+    mech_dropdown = gtk_drop_down_new_from_strings(mechs);
     
     guint init_mech = 0;
     if (ctx->win.mechanism == MECH_TILT_AND_TURN) 
