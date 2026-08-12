@@ -9,7 +9,7 @@ void calculate_layout_offsets(const t_profile_config *cfg, t_layout_offsets *out
 
 void calculate_dimensions(const t_window *win, t_result *res, const t_profile_config *cfg, t_layout_offsets *offsets)
 {
-	if (!win || !res || !cfg)
+	if (!win || !res || !cfg || !offsets)
         return;
 
 	res->sash_width = win->width - 2 * cfg->frame.width  + (2 * cfg->frame.rebate_width) + (2 * cfg->sash.overlap);

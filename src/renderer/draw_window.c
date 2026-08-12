@@ -10,6 +10,7 @@ static float compute_fit_scale(int canvas_width, int canvas_height, float object
 
     float scale_x = avail_w / object_w_mm;
     float scale_y = avail_h / object_h_mm;
+    
 	float fit_scale = (scale_x < scale_y) ? scale_x : scale_y;
 
     return (fit_scale < MAX_SCALE_PX_PER_MM) ? fit_scale : MAX_SCALE_PX_PER_MM;

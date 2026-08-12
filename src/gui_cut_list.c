@@ -60,7 +60,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(panel, 600, -1);
+    gtk_widget_set_size_request(panel, 200, -1);
     set_margin(panel, 40);
 	
 	// --- Title row: "Cutting List" label + Export button, spaced apart ---
