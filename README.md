@@ -2,13 +2,11 @@
 
 A GTK4 desktop application written in C for calculating window sash dimensions, profile geometries, and generating automated cut lists.
 
-![Window Calculator UI running on GNOME](docs/demo.png)
-
-> **Alt-text**: The main window showing Cairo drawing canvas on the right and sash input parameters on the left sidebar.
+![Window Calculator main UI: input controls on the left, Cairo drawing area in the middle, and cut list results on the right](docs/demo.gif)
 
 ## Why
 
-Calculations for timber window frames are traditionally done manually or in clunky spreadsheets, leading to measurement errors during cutting. I built this tool as an MVP to learn pure C11 memory management, GTK4 UI paradigms, and Cairo 2D canvas rendering while solving real workshop dimensional math.
+I built this project as an experimental tool to practice C programming using a domain I'm familiar with: wooden window construction. It served as a practical playground for learning GTK4 GUI development and Cairo rendering.
 
 ## Features
 
@@ -54,8 +52,15 @@ make meson
 
 # Run the app inside the container
 make run
-
-### Prerequisites (Ubuntu / Debian)
 ```
-sudo apt update
-sudo apt install -y build-essential libgtk-4-dev meson ninja-build
+### Prerequisites 
+### Linux (Ubuntu / Debian)
+```bash
+sudo apt update && sudo apt install -y build-essential libgtk-4-dev meson ninja-build
+```
+### macOS
+```
+brew install gtk4 meson ninja pkg-config
+```
+
+

@@ -227,7 +227,7 @@ void update_cut_list_ui(t_app_context *ctx)
 	    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), raw_str);
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))
 	    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), net_str);
-	set_label_colored(ctx->cut_list_ui.lbl_frame_head_net, net_str, "#5C3D2E");
+	set_label_colored(ctx->cut_list_ui.lbl_frame_head_net, net_str, "#804f81");
 
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), raw_str);
@@ -235,7 +235,7 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_net), net_str);
     }
-	set_label_colored(ctx->cut_list_ui.lbl_frame_sill_net, net_str, "#5C3D2E");
+	set_label_colored(ctx->cut_list_ui.lbl_frame_sill_net, net_str, "#804f81");
 
     // VERTICAL FRAME
     snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
@@ -251,7 +251,7 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_left_net), net_str);
     }
-	set_label_colored(ctx->cut_list_ui.lbl_frame_left_net, net_str, "#5C3D2E");
+	set_label_colored(ctx->cut_list_ui.lbl_frame_left_net, net_str, "#804f81");
 
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_right_raw))
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_raw), raw_str);
@@ -259,7 +259,7 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_right_net), net_str);
     }
-	set_label_colored(ctx->cut_list_ui.lbl_frame_right_net, net_str, "#5C3D2E");
+	set_label_colored(ctx->cut_list_ui.lbl_frame_right_net, net_str, "#804f81");
 
  
 
@@ -313,13 +313,13 @@ void update_cut_list_ui(t_app_context *ctx)
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_left_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_net), net_str);
-			set_label_colored(ctx->cut_list_ui.lbl_sash_left_net, net_str, "#173925");
+			set_label_colored(ctx->cut_list_ui.lbl_sash_left_net, net_str, "#52798f");
 
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_raw))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_net), net_str);
-			set_label_colored(ctx->cut_list_ui.lbl_sash_right_net, net_str, "#173925");
+			set_label_colored(ctx->cut_list_ui.lbl_sash_right_net, net_str, "#52798f");
 			
 		
 		//	Horizontal Fix Sash
@@ -333,13 +333,13 @@ void update_cut_list_ui(t_app_context *ctx)
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_net), net_str);
-		set_label_colored(ctx->cut_list_ui.lbl_sash_top_net, net_str, "#173925");
+		set_label_colored(ctx->cut_list_ui.lbl_sash_top_net, net_str, "#52798f");
 
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw), raw_str);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net))
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net), net_str);
-		set_label_colored(ctx->cut_list_ui.lbl_sash_bottom_net, net_str, "#173925");
+		set_label_colored(ctx->cut_list_ui.lbl_sash_bottom_net, net_str, "#52798f");
 		
 		const char *dash = "-";
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), dash);
@@ -357,6 +357,6 @@ void update_cut_list_ui(t_app_context *ctx)
     {
         snprintf(net_str, sizeof(net_str), "%.0f x %.0f mm", ctx->res.glass_width, ctx->res.glass_height);
         gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_glass_net), net_str);
-		set_label_colored(ctx->cut_list_ui.lbl_glass_net, net_str, "#2e405c");
+		set_label_colored(ctx->cut_list_ui.lbl_glass_net, net_str, "#58ac78");
     }
 }
