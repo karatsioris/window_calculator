@@ -60,7 +60,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(panel, 200, -1);
+    gtk_widget_set_size_request(panel, 550, -1);
     set_margin(panel, 40);
 	
 	// --- Title row: "Cutting List" label + Export button, spaced apart ---
@@ -219,9 +219,9 @@ void update_cut_list_ui(t_app_context *ctx)
 
     // Horizontal FRAME
     snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
-	ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_horizontal_cut + LENGTH_ALLOWANCE_MM);
+			ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_horizontal_cut + LENGTH_ALLOWANCE_MM);
     snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
-	ctx->cfg.frame.depth, ctx->cfg.frame.width, ctx->res.frame_horizontal_cut);
+			ctx->cfg.frame.depth, ctx->cfg.frame.width, ctx->res.frame_horizontal_cut);
 	
     if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))
 	    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), raw_str);
@@ -301,9 +301,47 @@ void update_cut_list_ui(t_app_context *ctx)
             gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_net), net_str);
 			set_label_colored(ctx->cut_list_ui.lbl_sash_right_net, net_str, "#173925");
     }
-    else
+    else if (ctx->win.mechanism == MECH_FIXED)
     {
-        const char *dash = "-";
+		// Vertical Fix Sash
+		snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
+             ctx->cfg.sash.depth, RAW_SASH_WIDTH_MM, ctx->res.frame_vertical_cut + LENGTH_ALLOWANCE_MM);
+    	snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
+             ctx->cfg.sash.depth, ctx->cfg.sash.width, ctx->res.frame_vertical_cut);
+		
+		if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_left_raw))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_raw), raw_str);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_left_net))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_left_net), net_str);
+			set_label_colored(ctx->cut_list_ui.lbl_sash_left_net, net_str, "#173925");
+
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_raw))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_raw), raw_str);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_right_net))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_right_net), net_str);
+			set_label_colored(ctx->cut_list_ui.lbl_sash_right_net, net_str, "#173925");
+			
+		
+		//	Horizontal Fix Sash
+		snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
+			ctx->cfg.sash.depth, RAW_SASH_WIDTH_MM, ctx->res.sash_horizontal_cut + (2 * ctx->offsets.offset_top) + LENGTH_ALLOWANCE_MM);
+    	snprintf(net_str, sizeof(net_str), "%.0f x %.0f x %.0f",
+			ctx->cfg.sash.depth, ctx->cfg.sash.width, ctx->res.sash_horizontal_cut + (2 * ctx->offsets.offset_top));
+
+
+		if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_raw))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_raw), raw_str);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_top_net))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_top_net), net_str);
+		set_label_colored(ctx->cut_list_ui.lbl_sash_top_net, net_str, "#173925");
+
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_raw), raw_str);
+        if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net))
+            gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_sash_bottom_net), net_str);
+		set_label_colored(ctx->cut_list_ui.lbl_sash_bottom_net, net_str, "#173925");
+		
+		const char *dash = "-";
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_raw))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_raw), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_head_net))    gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_head_net), dash);
         if (GTK_IS_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw)) 	gtk_label_set_text(GTK_LABEL(ctx->cut_list_ui.lbl_frame_sill_raw), dash);

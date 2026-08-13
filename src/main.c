@@ -4,7 +4,7 @@
 
 #include "calculator.h"
 #include "gui.h"
-#include "config.h"
+#include"config.h"
 
 
 int main(int argc, char **argv)
@@ -28,6 +28,7 @@ int main(int argc, char **argv)
         save_config_to_ini(filename, &ctx->cfg);
     }
   
+	// init_window(&ctx->win, &ctx->cfg);
 	init_app_context(ctx);
 
     app = gtk_application_new("com.konstantinos.windowcalc", G_APPLICATION_DEFAULT_FLAGS);
@@ -35,7 +36,7 @@ int main(int argc, char **argv)
 
     g_signal_connect(app, "activate", G_CALLBACK(activate), ctx);
 
-	g_signal_connect(app, "shutdown", G_CALLBACK(shutdown), ctx);
+	g_signal_connect(app, "shutdown", G_CALLBACK(on_app_shutdown), ctx);
 
     status = g_application_run(G_APPLICATION(app), argc, argv);
     

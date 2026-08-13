@@ -1,16 +1,22 @@
 Window Calculator - Cutting List Export
 
 Window Type,Single Sash
-Opening Direction,Right
-Mechanism,Fixed
-Requested Width (mm),1980
-Requested Height (mm),500
-Frame Overall Width (mm),1980
-Frame Overall Height (mm),500
+Opening Direction,Left
+Mechanism,Tilt and Turn
+Requested Width (mm),1910
+Requested Height (mm),1010
+Frame Overall Width (mm),1910
+Frame Overall Height (mm),1010
+Sash Overall Width (mm),1828
+Sash Overall Height (mm),916
 
 Item,Material,Qty,Over Thickness,Over Width,Over Length,Finish Thickness,Finish Width,Finish Length
-Frame Head,Oak,1,68,80,1936,68,79,1886
-Frame Sill,Oak,1,68,80,1936,68,79,1886
-Frame Left Jamb,Oak,1,68,80,550,68,79,500
-Frame Right Jamb,Oak,1,68,80,550,68,79,500
-Glass Pane,Glass,1,-,-,-,-,1774,282
+Frame Head,Oak,1,68,80,1866,68,79,1816
+Frame Sill,Oak,1,68,80,1866,68,79,1816
+Frame Left Jamb,Oak,1,68,80,1060,68,79,1010
+Frame Right Jamb,Oak,1,68,80,1060,68,79,1010
+Sash Top Rail,Oak,1,68,80,1768,68,75,1718
+Sash Bottom Rail,Oak,1,68,80,1768,68,75,1718
+Sash Left Stile,Oak,1,68,80,966,68,75,916
+Sash Right Stile,Oak,1,68,80,966,68,75,916
+Glass Pane,Glass,1,-,-,-,-,1704,792
