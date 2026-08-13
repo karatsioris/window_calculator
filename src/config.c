@@ -22,13 +22,11 @@ void load_default_config(t_profile_config *cfg)
     cfg->gaps.glass_clearance = 2.0f; // plastic spacer
 }
 
-// because i use the t_app_context i can use this function for init
 void init_app_context(t_app_context *ctx)
 {
     if (!ctx)
         return;
 
-    /* Initialize Window Instance */
     ctx->win.type = WINDOW_SINGLE_SASH;
     ctx->win.width = 500.0f;
     ctx->win.height = 500.0f;
@@ -205,7 +203,7 @@ gboolean save_window_to_win(const char *filename, const t_app_context *ctx)
     return success;
 }
 
-void	on_app_shutdown(GtkApplication *app, gpointer user_data)
+void	shutdown(GtkApplication *app, gpointer user_data)
 {
 	(void)app;
 	t_app_context *ctx = (t_app_context *)user_data;
