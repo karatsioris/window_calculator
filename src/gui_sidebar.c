@@ -68,9 +68,10 @@ static void on_dimension_spin_changed(GtkSpinButton *spin, gpointer user_data)
     t_app_context *ctx = (t_app_context *)user_data;
     if (!ctx) return;
 
-   
-    ctx->win.width  = (float)gtk_spin_button_get_value(ctx->spin_width);
-    ctx->win.height = (float)gtk_spin_button_get_value(ctx->spin_height);
+	if (spin == ctx->spin_width)
+        ctx->win.width = (float)gtk_spin_button_get_value(spin);
+    else if (spin == ctx->spin_height)
+        ctx->win.height = (float)gtk_spin_button_get_value(spin);
 
     refresh_application(ctx);
 }
@@ -89,7 +90,7 @@ static void on_direction_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpoin
 	else if (selected == 1)
 		ctx->win.opening_dir = OPEN_RIGHT;
 	   
-    gtk_widget_queue_draw(ctx->area);
+	refresh_application(ctx);
 }
 
 

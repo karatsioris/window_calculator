@@ -6,7 +6,6 @@ static void on_save_file_finish(GObject *source_object, GAsyncResult *res, gpoin
     t_app_context *ctx = (t_app_context *)user_data;
     GError *error = NULL;
 
-    // Παίρνουμε το αρχείο που επέλεξε/έγραψε ο χρήστης
     GFile *file = gtk_file_dialog_save_finish(dialog, res, &error);
 
     if (file != NULL)
@@ -37,10 +36,8 @@ void on_save_project_clicked(GtkButton *btn, gpointer user_data)
     (void)btn;
     t_app_context *ctx = (t_app_context *)user_data;
 
-    // 1. Δημιουργία του File Dialog
     GtkFileDialog *dialog = gtk_file_dialog_new();
     
-    // 2. Τίτλος παραθύρου & Προτεινόμενο όνομα
     gtk_file_dialog_set_title(dialog, "Save Window Project");
     gtk_file_dialog_set_initial_name(dialog, "my_window.win");
 
@@ -53,7 +50,6 @@ void on_save_project_clicked(GtkButton *btn, gpointer user_data)
         ctx                            // user_data
     );
 
-    // Το dialog ελευθερώνεται αυτόματα μετά τη χρήση
     g_object_unref(dialog);
 }
 
@@ -70,10 +66,10 @@ static void on_import_response(GObject *source, GAsyncResult *res, gpointer user
         if (load_project_from_win(path, ctx))
 		{
             /* Synchronize UI elements with loaded state */
-            gtk_spin_button_set_value(ctx->spin_width, ctx->win.width);
-            gtk_spin_button_set_value(ctx->spin_height, ctx->win.height);
-            gtk_drop_down_set_selected(ctx->drop_direction, ctx->win.opening_dir);
-            gtk_drop_down_set_selected(ctx->drop_mechanism, ctx->win.mechanism);
+            gtk_spin_button_set_value(GTK_SPIN_BUTTON(ctx->spin_width), ctx->win.width);
+            gtk_spin_button_set_value(GTK_SPIN_BUTTON(ctx->spin_height), ctx->win.height);
+            gtk_drop_down_set_selected(GTK_DROP_DOWN(ctx->drop_direction), ctx->win.opening_dir);
+            gtk_drop_down_set_selected(GTK_DROP_DOWN(ctx->drop_mechanism), ctx->win.mechanism);
 
             calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
             gtk_widget_queue_draw(ctx->area);
@@ -100,7 +96,11 @@ void on_import_clicked(GtkButton *btn, gpointer user_data)
     g_list_store_append(filters, filter);
     gtk_file_dialog_set_filters(dialog, G_LIST_MODEL(filters));
 
+    g_object_unref(filter);
+    g_object_unref(filters);
+
     gtk_file_dialog_open(dialog, GTK_WINDOW(ctx->main_window), NULL, on_import_response, ctx);
     g_object_unref(dialog);
+
 }
 
