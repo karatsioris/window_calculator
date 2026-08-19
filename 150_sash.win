@@ -1,0 +1,13 @@
+[Window]
+width=1500
+height=1020
+mechanism=1
+opening_dir=0
+
+[Frame]
+width=79
+rebate_width=32
+
+[Sash]
+width=75
+overlap=6

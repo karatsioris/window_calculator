@@ -57,7 +57,7 @@ void on_export_csv_clicked(GtkButton *btn, t_app_context *ctx)
         fprintf(f, "Sash Overall Width (mm),%.0f\n", ctx->res.sash_width);
         fprintf(f, "Sash Overall Height (mm),%.0f\n", ctx->res.sash_height);
     }
-    fprintf(f, "\n"); // blank row separates metadata from table
+    fprintf(f, "\n");
 
     // --- Cutting list table ---
     fprintf(f, "Item,Material,Qty,Over Thickness,Over Width,Over Length,"

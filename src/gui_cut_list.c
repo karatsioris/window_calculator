@@ -63,7 +63,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     gtk_widget_set_size_request(panel, 550, -1);
     set_margin(panel, 40);
 	
-	// --- Title row: "Cutting List" label + Export button, spaced apart ---
+	// Title row: "Cutting List" label + Export button, spaced apart
  	title_row = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
   	gtk_widget_set_margin_bottom(title_row, 20);
 
@@ -214,9 +214,6 @@ void update_cut_list_ui(t_app_context *ctx)
     char raw_str[64];
     char net_str[64];
 	
-    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
-	
-
     // Horizontal FRAME
     snprintf(raw_str, sizeof(raw_str), "%.0f x %.0f x %.0f",
 			ctx->cfg.frame.depth, RAW_FRAME_WIDTH_MM, ctx->res.frame_horizontal_cut + LENGTH_ALLOWANCE_MM);

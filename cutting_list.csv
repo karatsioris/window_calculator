@@ -3,20 +3,20 @@ Window Calculator - Cutting List Export
 Window Type,Single Sash
 Opening Direction,Left
 Mechanism,Tilt and Turn
-Requested Width (mm),1910
-Requested Height (mm),1010
-Frame Overall Width (mm),1910
-Frame Overall Height (mm),1010
-Sash Overall Width (mm),1828
-Sash Overall Height (mm),916
+Requested Width (mm),500
+Requested Height (mm),500
+Frame Overall Width (mm),500
+Frame Overall Height (mm),500
+Sash Overall Width (mm),418
+Sash Overall Height (mm),406
 
 Item,Material,Qty,Over Thickness,Over Width,Over Length,Finish Thickness,Finish Width,Finish Length
-Frame Head,Oak,1,68,80,1866,68,79,1816
-Frame Sill,Oak,1,68,80,1866,68,79,1816
-Frame Left Jamb,Oak,1,68,80,1060,68,79,1010
-Frame Right Jamb,Oak,1,68,80,1060,68,79,1010
-Sash Top Rail,Oak,1,68,80,1768,68,75,1718
-Sash Bottom Rail,Oak,1,68,80,1768,68,75,1718
-Sash Left Stile,Oak,1,68,80,966,68,75,916
-Sash Right Stile,Oak,1,68,80,966,68,75,916
-Glass Pane,Glass,1,-,-,-,-,1704,792
+Frame Head,Oak,1,68,80,456,68,79,406
+Frame Sill,Oak,1,68,80,456,68,79,406
+Frame Left Jamb,Oak,1,68,80,550,68,79,500
+Frame Right Jamb,Oak,1,68,80,550,68,79,500
+Sash Top Rail,Oak,1,68,80,356,68,75,306
+Sash Bottom Rail,Oak,1,68,80,356,68,75,306
+Sash Left Stile,Oak,1,68,80,456,68,75,406
+Sash Right Stile,Oak,1,68,80,456,68,75,406
+Glass Pane,Glass,1,-,-,-,-,294,282

@@ -53,6 +53,14 @@ static GtkWidget *build_labeled_dropdown(const char *label_text, const char **op
     return box;
 }
 
+static void    refresh_application(t_app_context *ctx)
+{
+    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
+
+    if (ctx->area)
+    	gtk_widget_queue_draw(ctx->area);
+    update_cut_list_ui(ctx); 
+}
 
 static void on_dimension_spin_changed(GtkSpinButton *spin, gpointer user_data)
 {
@@ -64,11 +72,7 @@ static void on_dimension_spin_changed(GtkSpinButton *spin, gpointer user_data)
     ctx->win.width  = (float)gtk_spin_button_get_value(ctx->spin_width);
     ctx->win.height = (float)gtk_spin_button_get_value(ctx->spin_height);
 
-    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
-
-    if (ctx->area)
-    	gtk_widget_queue_draw(ctx->area);
-    update_cut_list_ui(ctx); 
+    refresh_application(ctx);
 }
 
 static void on_direction_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpointer data)
@@ -106,10 +110,7 @@ void on_mechanism_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpointer use
     else if (selected == 2)
         ctx->win.mechanism = MECH_FIXED;
 
-    calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
-
-    gtk_widget_queue_draw(ctx->area);
-	update_cut_list_ui(ctx);
+    refresh_application(ctx);
 }
 
 static GtkWidget *create_section_label(const char *text, GtkWidget *parent_box)

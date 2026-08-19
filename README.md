@@ -2,7 +2,8 @@
 
 A GTK4 desktop application written in C for calculating window sash dimensions, profile geometries, and generating automated cut lists.
 
-![Window Calculator main UI: input controls on the left, Cairo drawing area in the middle, and cut list results on the right](docs/demo.gif)
+<video src="docs/visual.mov" autoplay loop muted playsinline width="100%">
+</video>
 
 ## Why
 
