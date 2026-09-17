@@ -104,3 +104,16 @@ void on_import_clicked(GtkButton *btn, gpointer user_data)
 
 }
 
+void on_cut_list_clicked(GtkButton *btn, gpointer user_data)
+{
+    (void)btn;
+    t_app_context *ctx = (t_app_context *)user_data;
+    gboolean is_revealed;
+
+    if (!ctx || !ctx->cut_list_revealer)
+        return;
+
+    is_revealed = gtk_revealer_get_reveal_child(GTK_REVEALER(ctx->cut_list_revealer));
+	
+    gtk_revealer_set_reveal_child(GTK_REVEALER(ctx->cut_list_revealer), !is_revealed);
+}

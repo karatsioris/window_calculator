@@ -33,6 +33,7 @@ void		on_mechanism_changed(GtkDropDown *dropdown, GParamSpec *pspec, gpointer us
 // save_import.c
 void	on_save_project_clicked(GtkButton *btn, gpointer user_data);
 void	on_import_clicked(GtkButton *btn, gpointer user_data);
+void	on_cut_list_clicked(GtkButton *btn, gpointer user_data);
 
 // gui_sidebar.c
 void	set_margin(GtkWidget *place, int num);

@@ -21,6 +21,7 @@ void	activate(GtkApplication *app, gpointer user_data)
 	GtkWidget		*import_btn;
 	GtkWidget		*save_btn;
 	GtkWidget		*settings_btn;
+    GtkWidget       *cut_list_btn;
 	GtkWidget		*header_bar;
 	GtkWidget		*left_panel;
     GtkWidget		*right_panel;
@@ -28,6 +29,10 @@ void	activate(GtkApplication *app, gpointer user_data)
 	ctx->box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     ctx->main_window = gtk_application_window_new(app);
     ctx->area = gtk_drawing_area_new();
+    ctx->cut_list_revealer = gtk_revealer_new();
+
+    gtk_revealer_set_transition_type(GTK_REVEALER(ctx->cut_list_revealer), GTK_REVEALER_TRANSITION_TYPE_SLIDE_LEFT);
+    gtk_revealer_set_reveal_child(GTK_REVEALER(ctx->cut_list_revealer), FALSE);
     
     calculate_dimensions(&ctx->win, &ctx->res, &ctx->cfg, &ctx->offsets);
 
@@ -37,12 +42,15 @@ void	activate(GtkApplication *app, gpointer user_data)
 	import_btn = create_and_pack_header_button("Import", "icons/import.svg", header_bar);
 	settings_btn = create_and_pack_header_button("Settings", "icons/settings.svg", header_bar);
     save_btn = create_and_pack_header_button("Save", "icons/save.svg", header_bar);
+    cut_list_btn = create_and_pack_header_button("Cut list", "icons/list.svg", header_bar);
     
 	gtk_window_set_titlebar(GTK_WINDOW(ctx->main_window), header_bar);
 	
 	g_signal_connect(import_btn, "clicked", G_CALLBACK(on_import_clicked), ctx);
 	g_signal_connect(settings_btn, "clicked", G_CALLBACK(on_settings_clicked), ctx);
 	g_signal_connect(save_btn, "clicked", G_CALLBACK(on_save_project_clicked), ctx);
+	g_signal_connect(cut_list_btn, "clicked", G_CALLBACK(on_cut_list_clicked), ctx);
+    
 
     gtk_widget_set_hexpand(ctx->area, TRUE);
     gtk_widget_set_vexpand(ctx->area, TRUE);
@@ -51,10 +59,13 @@ void	activate(GtkApplication *app, gpointer user_data)
     
     gtk_box_append(GTK_BOX(ctx->box), left_panel);
     gtk_box_append(GTK_BOX(ctx->box), ctx->area);
-    gtk_box_append(GTK_BOX(ctx->box), right_panel);
+    // gtk_box_append(GTK_BOX(ctx->box), right_panel);
+    gtk_box_append(GTK_BOX(ctx->box), ctx->cut_list_revealer);
+
     
     gtk_window_set_title(GTK_WINDOW(ctx->main_window), "Window calculator");
     gtk_window_set_child(GTK_WINDOW(ctx->main_window), ctx->box);
+    gtk_revealer_set_child(GTK_REVEALER(ctx->cut_list_revealer), right_panel);
 
     gtk_window_maximize(GTK_WINDOW(ctx->main_window));
     gtk_window_present(GTK_WINDOW(ctx->main_window));

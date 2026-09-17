@@ -83,7 +83,7 @@ static void draw_fix_lines(cairo_t *cr, float frame_x, float frame_y, const t_sc
                         sv->frame_h - (2.0f * sv->sash_w_profile));
     cairo_stroke(cr);
 
-	 // Φάλτσα Πηχακίων (4 Corner Lines)
+	// Φάλτσα Πηχακίων (4 Corner Lines)
     cairo_move_to(cr, frame_x + sv->sash_visible_w, frame_y + sv->sash_visible_w);
     cairo_line_to(cr, frame_x + sv->sash_w_profile, frame_y + sv->sash_w_profile);
 

@@ -60,7 +60,7 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
     int row = 0;
 
     panel = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_widget_set_size_request(panel, 550, -1);
+    gtk_widget_set_size_request(panel, 530, -1);
     set_margin(panel, 40);
 	
 	// Title row: "Cutting List" label + Export button, spaced apart
@@ -85,8 +85,8 @@ GtkWidget *build_cut_list_panel(t_app_context *ctx)
 	gtk_box_append(GTK_BOX(panel), title_row); 
 
     grid = gtk_grid_new();
-    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
-    gtk_grid_set_column_spacing(GTK_GRID(grid), 12);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 4);
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 6);
 
     lbl_log_group = gtk_label_new(NULL);
     gtk_label_set_markup(GTK_LABEL(lbl_log_group), "<b>Log</b>");
