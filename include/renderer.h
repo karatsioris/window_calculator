@@ -5,6 +5,7 @@
 #include "gui.h"
 
 #define MAX_SCALE_PX_PER_MM 1.2f 
+#define PADDING_RATIO 0.05f
 
 
 // Layout & Spacing Constants for Dimensions (in pixels)

@@ -17,22 +17,25 @@ static float compute_fit_scale(int canvas_width, int canvas_height, float object
 }
 
 
-static void		calculated_scaled_vars(int width,int height, t_app_context *ctx, t_scaled_vars *scaled_var, t_layout_offsets *out)
+static void		calculate_scaled_vars(int width,int height, t_app_context *ctx, t_scaled_vars *scaled_var,const t_layout_offsets *offsets)
 {
-    if(!ctx || !scaled_var)
+    if(!ctx || !scaled_var || !offsets)
     {
         return;
     }
 
-	float scale = compute_fit_scale(width, height, ctx->res.frame_width, ctx->res.frame_height, 200.0f);
+    float min_side = (width < height) ? width : height;
+    float padding  = min_side * PADDING_RATIO + 2 * DIM_OFFSET_OUTER;
+
+	float scale = compute_fit_scale(width, height, ctx->res.frame_width, ctx->res.frame_height, padding);
 	
 	scaled_var->frame_w				= ctx->res.frame_width * scale;
     scaled_var->frame_h				= ctx->res.frame_height * scale;
     scaled_var->sash_w				= ctx->res.sash_width * scale;
     scaled_var->sash_h				= ctx->res.sash_height * scale;
-	scaled_var->offset_top			= out->offset_top * scale;
-	scaled_var->inner_frame_offset	= out->inner_frame_offset * scale; // 47mm
-	scaled_var->inner_sill_offset	= out->inner_sill_offset * scale;
+	scaled_var->offset_top			= offsets->offset_top * scale;
+	scaled_var->inner_frame_offset	= offsets->inner_frame_offset * scale; // 47mm
+	scaled_var->inner_sill_offset	= offsets->inner_sill_offset * scale;
 	scaled_var->sash_visible_w		= (ctx->cfg.sash.width - ctx->cfg.sash.bead_width) * scale;
 	scaled_var->sash_w_profile		= ctx->cfg.sash.width * scale;
 	
@@ -173,7 +176,7 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpo
         return;
     t_scaled_vars  sv;
 
-    calculated_scaled_vars(width, height, ctx, &sv, &ctx->offsets);
+    calculate_scaled_vars(width, height, ctx, &sv, &ctx->offsets);
 
     float frame_x = (width  / 2.0f) - (sv.frame_w / 2.0f);
     float frame_y = (height / 2.0f) - (sv.frame_h / 2.0f);

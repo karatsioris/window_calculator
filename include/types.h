@@ -152,7 +152,6 @@ typedef struct s_app_context
     GtkWidget       *main_window;
 	GtkWidget       *box;
 
-    // GtkWidget       *right_panel;
     GtkWidget       *cut_list_revealer;
     
     GtkSpinButton   *spin_width;

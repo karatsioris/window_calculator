@@ -93,6 +93,7 @@ static GtkWidget *build_diagram_panel(const char *svg_path)
 
     return left_box;
 }
+
 static void build_frame_section(t_app_context *ctx, GtkWidget *box)
 {
     add_section_header("Frame Specifications (mm)", box);
@@ -133,10 +134,10 @@ void on_settings_clicked(GtkButton *btn, gpointer user_data)
     gtk_window_set_title(GTK_WINDOW(dialog), "Profile & System Setup");
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
     gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(ctx->main_window));
-    gtk_window_set_default_size(GTK_WINDOW(dialog), 1400, 950);
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 1200, 900);
 
-    GtkWidget *main_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 16);
-    set_margin(main_hbox, 16);
+    GtkWidget *main_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 12);
+    set_margin(main_hbox, 12);
 
     // Left Side (Diagram Panel)
     GtkWidget *left_panel = build_diagram_panel("section.svg");
@@ -149,7 +150,7 @@ void on_settings_clicked(GtkButton *btn, gpointer user_data)
     GtkWidget *scroll = gtk_scrolled_window_new();
     gtk_widget_set_hexpand(scroll, TRUE);
 
-    GtkWidget *right_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 12);
+    GtkWidget *right_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     set_margin(right_box, 8);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scroll), right_box);
 

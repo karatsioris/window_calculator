@@ -1,10 +1,11 @@
 #include "gui.h"
 
-static GtkWidget	*create_and_pack_header_button(char	*label, char *btn_icon, GtkWidget *header_bar)
+static GtkWidget	*create_and_pack_header_button(const char	*label, const char *btn_icon, GtkWidget *header_bar)
 {
 	
-	GtkWidget *btn = gtk_button_new();
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+	GtkWidget *btn = gtk_button_new();
+
 	gtk_box_append(GTK_BOX(box), gtk_image_new_from_file(btn_icon));
 	gtk_box_append(GTK_BOX(box), gtk_label_new(label));
     gtk_button_set_child(GTK_BUTTON(btn), box);
@@ -25,8 +26,9 @@ void	activate(GtkApplication *app, gpointer user_data)
 	GtkWidget		*header_bar;
 	GtkWidget		*left_panel;
     GtkWidget		*right_panel;
+    GtkWidget       *main_box;
     
-	ctx->box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+	main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     ctx->main_window = gtk_application_window_new(app);
     ctx->area = gtk_drawing_area_new();
     ctx->cut_list_revealer = gtk_revealer_new();
@@ -57,14 +59,13 @@ void	activate(GtkApplication *app, gpointer user_data)
     
     gtk_drawing_area_set_draw_func(GTK_DRAWING_AREA(ctx->area), draw_function, ctx, NULL);
     
-    gtk_box_append(GTK_BOX(ctx->box), left_panel);
-    gtk_box_append(GTK_BOX(ctx->box), ctx->area);
-    // gtk_box_append(GTK_BOX(ctx->box), right_panel);
-    gtk_box_append(GTK_BOX(ctx->box), ctx->cut_list_revealer);
+    gtk_box_append(GTK_BOX(main_box), left_panel);
+    gtk_box_append(GTK_BOX(main_box), ctx->area);
+    gtk_box_append(GTK_BOX(main_box), ctx->cut_list_revealer);
 
     
     gtk_window_set_title(GTK_WINDOW(ctx->main_window), "Window calculator");
-    gtk_window_set_child(GTK_WINDOW(ctx->main_window), ctx->box);
+    gtk_window_set_child(GTK_WINDOW(ctx->main_window), main_box);
     gtk_revealer_set_child(GTK_REVEALER(ctx->cut_list_revealer), right_panel);
 
     gtk_window_maximize(GTK_WINDOW(ctx->main_window));
