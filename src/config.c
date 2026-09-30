@@ -99,30 +99,6 @@ void save_config_to_ini(const char *filename, const t_profile_config *cfg)
     g_key_file_free(keyfile);
 }
 
-int	save_project_to_win(const char *filepath, const t_app_context *ctx)
-{
-	FILE *f = fopen(filepath, "w");
-	if(!f)
-		return 0;
-
-	fprintf(f, "[Window]\n");
-	fprintf(f,"width=%.1fn\n", ctx->win.width);
-	fprintf(f, "height=%.1f\n", ctx->win.height);
-    fprintf(f, "mechanism=%d\n", ctx->win.mechanism);
-    fprintf(f, "opening_dir=%d\n", ctx->win.opening_dir);
-    fprintf(f, "type=%d\n\n", ctx->win.type);
-
-	fprintf(f, "[Frame]\n");
-    fprintf(f, "width=%.1f\n", ctx->cfg.frame.width);
-    fprintf(f, "rebate_width=%.1f\n\n", ctx->cfg.frame.rebate_width);
-
-	fprintf(f, "[Sash]\n");
-    fprintf(f, "width=%.1f\n", ctx->cfg.sash.width);
-    fprintf(f, "overlap=%.1f\n", ctx->cfg.sash.overlap);
-
-	fclose(f);
-	return 1;
-}
 
 int load_project_from_win(const char *filepath, t_app_context *ctx)
 {

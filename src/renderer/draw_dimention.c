@@ -106,7 +106,7 @@ void draw_all_dimensions(cairo_t *cr, float frame_x, float frame_y, float sash_x
     double sash_dim_x  = frame_x + sv->frame_w + DIM_OFFSET_INNER;
 
     // Top Dimensions (Widths)
-    draw_horizontal_dimension(cr, frame_x, frame_x + sv->frame_w,frame_dim_y,
+    draw_horizontal_dimension(cr, frame_x, frame_x + sv->frame_w, frame_dim_y,
 								res->frame_width,
 								frame_dim_y - DIM_EXT_OVERHANG,
 								frame_y - DIM_EXT_GAP);

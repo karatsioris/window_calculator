@@ -46,21 +46,22 @@ static void draw_frame_lines(cairo_t *cr, float frame_x, float frame_y, const t_
 {
     cairo_set_line_width(cr, 1.0);
     cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+    
     cairo_rectangle(cr, frame_x, frame_y, sv->frame_w, sv->frame_h);
     cairo_stroke(cr);
-
+    
     cairo_set_line_width(cr, 0.5);
     // Πάνω Γωνίες
     cairo_move_to(cr, frame_x + sv->inner_frame_offset, frame_y + sv->offset_top);
     cairo_line_to(cr, frame_x + sv->inner_frame_offset, frame_y);
-
+    
     cairo_move_to(cr, frame_x + sv->frame_w - sv->inner_frame_offset, frame_y + sv->offset_top);
     cairo_line_to(cr, frame_x + sv->frame_w - sv->inner_frame_offset, frame_y);
     
     // Κάτω Γωνίες (Sill)
     cairo_move_to(cr, frame_x + sv->inner_frame_offset, frame_y + sv->frame_h - sv->inner_sill_offset);
     cairo_line_to(cr, frame_x + sv->inner_frame_offset, frame_y + sv->frame_h);
-
+    
     cairo_move_to(cr, frame_x + sv->frame_w - sv->inner_frame_offset, frame_y + sv->frame_h - sv->inner_sill_offset);
     cairo_line_to(cr, frame_x + sv->frame_w - sv->inner_frame_offset, frame_y + sv->frame_h);
     cairo_stroke(cr);
@@ -180,8 +181,8 @@ void draw_function(GtkDrawingArea *area, cairo_t *cr, int width, int height, gpo
 
     float frame_x = (width  / 2.0f) - (sv.frame_w / 2.0f);
     float frame_y = (height / 2.0f) - (sv.frame_h / 2.0f);
-    float sash_x = frame_x + (sv.frame_w - sv.sash_w) / 2.0f;;
-    float sash_y = frame_y + sv.offset_top;;
+    float sash_x = frame_x + (sv.frame_w - sv.sash_w) / 2.0f;
+    float sash_y = frame_y + sv.offset_top;
 	
     cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
     cairo_paint(cr);
