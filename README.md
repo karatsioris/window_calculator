@@ -1,7 +1,7 @@
 # Window Calculator (`win_calc`)
 
-<video src="docs/record last.mov" autoplay loop muted playsinline width="100%">
-</video>
+https://github.com/user-attachments/assets/3d40f699-9897-4b3c-acfd-250513997708
+
 A GTK4 desktop application written in C for calculating window sash dimensions, profile geometries, and generating automated cut lists.
 
 ## Why
